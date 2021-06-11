@@ -1,17 +1,9 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-  </div>
+  <h1>Home</h1>
 </template>
-
 <script>
-// @ is an alias to /src
-import NavLink from '@/components/Navlink.vue'
 
-export default {
-  name: 'Home',
-  components: {
-    NavLink
+  export default {
+    name: 'Home'
   }
-}
 </script>
