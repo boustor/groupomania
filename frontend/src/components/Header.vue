@@ -2,11 +2,11 @@
     <div id="entete">
         <div><img :src="require(`@/assets/groupomania.png`)" class="image"></div>
 
-        <div class="btn-group">
-            <div class="circleUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <font-awesome-icon :icon="myIcon" :style="{ color: 'black' }" />
+        <div class="btn-group" role="group">
+            <div id="boutonUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <img :src="require(`@/assets/offline_user.png`)" class="image">
             </div>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" aria-labelledby="boutonUser">
                 <li>
                     <router-link to="/login" class="lienUser">Connexion</router-link>
                 </li>
@@ -21,20 +21,8 @@
 </template>
 
 <script>
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-    import { faUser } from '@fortawesome/free-solid-svg-icons'
-
     export default {
         name: 'Header',
-
-        data() {
-            return {
-                myIcon: faUser
-            }
-        },
-        components: {
-            FontAwesomeIcon
-        }
     }
 </script>
 
@@ -55,17 +43,6 @@
             padding-left: 10px;
 
         }
-    }
-
-    .circleUser {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border: 1px solid black;
-        border-radius: 20px;
-
     }
 
     .lienUser {

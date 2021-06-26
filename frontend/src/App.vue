@@ -19,7 +19,7 @@
 <style lang="scss">
   body {
     margin: auto;
-    background-color:#e1e1e1;
+    background-color:white;
   }
 
   #app {

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const path = require('path');
+const authRoutes = require('./routes/auth');
 // mysql
 
 
@@ -18,9 +18,9 @@ app.use(cors());
     next();
   });
 
-  /*
+ 
   app.use('/api/auth', authRoutes);
-  app.use('/api/sauces', saucesRoutes);
-  */
+ // app.use('/api/sauces', saucesRoutes);
+ 
 
   module.exports = app;
