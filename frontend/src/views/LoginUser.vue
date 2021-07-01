@@ -3,17 +3,7 @@
   <div class="d-flex justify-content-center">
     <div class="d-flex justify-content-center border border-1 shadow-lg col-sm-4 rounded">
       <div class="col-sm-12">
-        <h4 class="mb-3 my-4">Création utilisateur</h4>
-
-
-
-        <div class="my-4 px-3">
-          <label for="nom" class="form-label">Nom</label>
-          <input type="text" class="form-control" id="nom" v-model="nom" placeholder="Nom">
-          <div class="invalid-feedback" v-bind:class="{'d-block' : ctrlNom}">
-            Le nom est obligatoire.
-          </div>
-        </div>
+        <h4 class="mb-3 my-4">Login utilisateur</h4>
 
         <div class="my-4 px-3">
           <label for="email" class="form-label">Courriel</label>
@@ -47,7 +37,7 @@
   //import fct from '@/function'
 
   export default {
-    name: 'CreateUser',
+    name: 'LoginUser',
     data() {
       return {
         email: '',
@@ -60,25 +50,14 @@
     },
     methods: {
       createAccount: function () {
-        if (this.nom == '') {
-          this.ctrlNom = true;
-        }
         if (this.email == '') {
           this.ctrlEmail = true;
         }
         if (this.password == '') {
           this.ctrlPswd = true;
         }
-        /*
-        if (fct.ctrlMdp(this.password) == false) {
-          alert('bade')
-          //this.ctrlPswd = false;
-        } else {
-          alert('ok')
-        }
-        */
+
        const data = {
-         'nom':this.nom,
          'email':this.email,
          'password':this.password
        }
@@ -87,9 +66,15 @@
          headers:{"Content-Type":"application/json"},
          body:JSON.stringify(data)
        };
-        fetch('http://localhost:3000/api/auth/signup',requestOptions)
+        fetch('http://localhost:3000/api/auth/login',requestOptions)
               .then(response => response.json())
-              .catch(() => this.error = true)
+              .then(user => {
+                localStorage.setItem('user-token', user.token)
+                this.$router.push('/messages')
+                })
+              .catch(() => {
+                localStorage.removeItem('user-token')
+                })
       }
     }
 

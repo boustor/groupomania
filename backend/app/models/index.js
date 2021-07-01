@@ -14,5 +14,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.users = require("./Users.js")(sequelize, Sequelize);
+db.messages = require("./Messages.js")(sequelize, Sequelize);
 
 module.exports = db;

@@ -1,23 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
-    const Users = sequelize.define("users", {
-        id_usr: {
+    const Messages = sequelize.define("messages", {
+        id_mes: {
             type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        name: {
+        id_usr: {
+            type: Sequelize.INTEGER
+        },
+        objet: {
             type: Sequelize.STRING
         },
-        email: {
-            type: Sequelize.STRING
-        },
-        password: {
-            type: Sequelize.STRING
-        },
-        admin: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
+        message: {
+            type: Sequelize.BLOB
         },
         createdAt: {
             type: 'TIMESTAMP',
@@ -31,5 +26,5 @@ module.exports = (sequelize, Sequelize) => {
         }
     });
 
-    return Users;
+    return Messages;
 };

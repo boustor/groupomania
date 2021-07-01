@@ -1,5 +1,3 @@
-
-
 module.exports = (req, res, next) => {
     const password = req.body.password;
 
@@ -11,7 +9,7 @@ module.exports = (req, res, next) => {
         next();
     } else {
         res.status(401).json({
-            "message": "Password  not valid"
+            "message": "Le mot de passe est invalide"
         });
     }
 }

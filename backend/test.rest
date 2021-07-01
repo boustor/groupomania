@@ -3,8 +3,9 @@ POST http://localhost:3000/api/auth/signup
 Content-Type: application/json
 
 {
+    "name":"boustor",
     "email": "courriel@courriel.com",
-    "password": "courriel"
+    "password": "123&Aabc"
 }
 
 ###
@@ -13,7 +14,7 @@ Content-Type: application/json
 
 {
     "email": "courriel@courriel.com",
-    "password": "courriel"
+    "password": "123&Aabc"
 }
 
 ###
