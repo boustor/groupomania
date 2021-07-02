@@ -4,22 +4,30 @@ const db = require('../app/models');
 const users = db.users;
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    const { name, email, password, admin } = req.body;
+    bcrypt.hash(password, 10)
         .then(hash => {
-            users.create({
-                name: req.body.name,
-                email: req.body.email,
-                password: hash
-            }).then(function(users) {
+            users.findOrCreate({
+                name: name,
+                email: email,
+                admin: admin,
+                password: hash,
+                where: { email: email }
+            }).then(function (users, created) {
                 if (users) {
                     res.send(users);
+
+                    if (users[1] == false) {
+                        res.status(500).json({message : 'Compte courriel déjà existant'})
+                    }
+
                 } else {
                     res.status(400).send('Error in insert new record');
                 }
+
             })
         })
         .catch(error => res.status(500).json({ message: 'Problème de bcrypt' }));
-
 };
 
 exports.login = (req, res, next) => {

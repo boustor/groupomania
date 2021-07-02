@@ -4,8 +4,9 @@ Content-Type: application/json
 
 {
     "name":"boustor",
-    "email": "courriel@courriel.com",
-    "password": "123&Aabc"
+    "email": "courrieldsf@courriel.com",
+    "password": "123&Aabc",
+    "admin":"0"
 }
 
 ###
