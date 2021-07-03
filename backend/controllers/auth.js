@@ -13,18 +13,16 @@ exports.signup = (req, res, next) => {
                 admin: admin,
                 password: hash,
                 where: { email: email }
-            }).then(function (users, created) {
-                if (users) {
-                    res.send(users);
-
-                    if (users[1] == false) {
-                        res.status(500).json({message : 'Compte courriel déjà existant'})
-                    }
-
+            }).then(function (users) {
+                if (users[1] == false) {
+                    res.status(400).send('Compte courriel déjà existant');
                 } else {
-                    res.status(400).send('Error in insert new record');
+                    if (users) {
+                        res.send(users);
+                    } else {
+                        res.status(400).send('Error in insert new record');
+                    }
                 }
-
             })
         })
         .catch(error => res.status(500).json({ message: 'Problème de bcrypt' }));

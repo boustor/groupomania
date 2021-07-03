@@ -1,10 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
     const Messages = sequelize.define("messages", {
-        id_mes: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
         id_usr: {
             type: Sequelize.INTEGER
         },

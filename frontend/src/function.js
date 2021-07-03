@@ -1,10 +1,10 @@
 // control adresse courriel
-function checkEmail(email) {
+export function checkEmail(email) {
     if (!email.match(/[a-z0-9_\-.]+@[a-z0-9_\-.]+\.[a-z]+/i)) {
         return false
     }
 }// control mot de passe
-function ctrlMdp(pswd) {
+export function ctrlMdp(pswd) {
     if (
         pswd.match(/[0-9]/g) && //Au moins 1 chiffre.
         pswd.match(/[A-Z]/g) && //Au moins 1 caractère majuscule.
