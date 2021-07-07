@@ -25,7 +25,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
     #entete {
         display: flex;
         justify-content: space-between;
@@ -36,22 +36,23 @@
         border-bottom: 2px solid black;
         padding-left: 5px;
         padding-right: 20px;
-
-        .image {
-            max-height: 40px;
-            padding-left: 10px;
-
-        }
     }
+
+    .image {
+        max-height: 40px;
+        padding-left: 10px;
+
+    }
+
 
     .lienUser {
         text-decoration: none;
         padding-left: 5px;
         padding-right: 5px;
         color: black;
+    }
 
-        &:hover {
-            font-style: italic;
-        }
+    .lienUser:hover {
+        font-style: italic;
     }
 </style>

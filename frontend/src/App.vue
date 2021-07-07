@@ -17,7 +17,7 @@
 
 
 
-<style lang="scss">
+<style>
   body {
     margin: auto;
     background-color:white;
