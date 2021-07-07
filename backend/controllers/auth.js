@@ -3,22 +3,27 @@ const jwt = require('jsonwebtoken');
 const db = require('../app/models');
 const users = db.users;
 
+
 exports.signup = (req, res, next) => {
     const { name, email, password, admin } = req.body;
     bcrypt.hash(password, 10)
         .then(hash => {
             users.findOrCreate({
+                where: { email: email },
+                defaults: {
                 name: name,
                 email: email,
                 admin: admin,
-                password: hash,
-                where: { email: email }
+                password: hash
+                }
+                
             }).then(function (users) {
                 if (users[1] == false) {
                     res.status(400).send('Compte courriel déjà existant');
                 } else {
                     if (users) {
-                        res.send(users);
+                        //res.send(users);
+                        res.status(200).json({message:'créé'});
                     } else {
                         res.status(400).send('Error in insert new record');
                     }

@@ -1,10 +1,12 @@
 // control adresse courriel
-export function checkEmail(email) {
+export const checkEmail = (email) => {
     if (!email.match(/[a-z0-9_\-.]+@[a-z0-9_\-.]+\.[a-z]+/i)) {
         return false
     }
 }// control mot de passe
-export function ctrlMdp(pswd) {
+
+
+export const checkMdp = (pswd) => { 
     if (
         pswd.match(/[0-9]/g) && //Au moins 1 chiffre.
         pswd.match(/[A-Z]/g) && //Au moins 1 caractère majuscule.
