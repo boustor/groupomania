@@ -2,7 +2,7 @@
     <div id="entete">
         <div><img :src="require(`@/assets/groupomania.png`)" class="image"></div>
 
-        <div class="btn-group" role="group">
+        <div class="btn-group" role="group" v-if="connecter == 'non'">
             <div id="boutonUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <img :src="require(`@/assets/offline_user.png`)" class="image">
             </div>
@@ -15,6 +15,19 @@
                 </li>
             </ul>
         </div>
+        <div class="btn-group" role="group" v-else>
+            <div id="boutonUser" data-bs-toggle="dropdown" aria-expanded="false">
+                <img :src="require(`@/assets/online_user.png`)" class="image">
+            </div>
+            <ul class="dropdown-menu" aria-labelledby="boutonUser">
+                <li>
+                    <router-link to="/login" class="lienUser">Déconnexion</router-link>
+                </li>
+                <li>
+                    <router-link to="/Utilisateur" class="lienUser">Utilisateur</router-link>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </template>
@@ -22,6 +35,15 @@
 <script>
     export default {
         name: 'Header',
+        data: function () {
+            return {
+                connecter: 'non',
+                email: '',
+                prenom: '',
+                nom: '',
+                password: '',
+            }
+        }
     }
 </script>
 

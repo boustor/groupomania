@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const authRoutes = require('./routes/auth');
+const messages = require('./routes/messages');
 // mysql
 
 
@@ -20,7 +21,7 @@ app.use(cors());
 
  
   app.use('/api/auth', authRoutes);
- // app.use('/api/sauces', saucesRoutes);
+  app.use('/api/messages',messages);
  
 
   module.exports = app;

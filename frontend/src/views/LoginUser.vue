@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-  //import fct from '@/function'
+  import {checkEmail } from "../fonction";
 
   export default {
     name: 'LoginUser',
@@ -50,11 +50,23 @@
     },
     methods: {
       createAccount: function () {
-        if (this.email == '') {
+        let erreur = '';
+        if (this.email == '' || checkEmail(this.email === false)) {
           this.ctrlEmail = true;
+          erreur = true;
+        } else {
+          this.ctrlEmail = false;
         }
-        if (this.password == '') {
+
+        if (this.password == '' ) {
           this.ctrlPswd = true;
+          erreur = true;
+        } else {
+          this.ctrlPswd = false;
+        }
+
+        if (erreur == true) {
+          return;
         }
 
        const data = {

@@ -1,6 +1,8 @@
 <template>
   <Header />
+  <div class="fondCorps">
   <router-view />
+</div>
 </template>
 
 <script>
@@ -18,8 +20,16 @@
 
 <style>
   body {
+    width:1024px;
     margin: auto;
-    background-color:white;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    background-color: #78b0b8  ;
+  }
+
+  .fondCorps {
+    background-color: #fff;
+    height: 100vh;
   }
 
   #app {

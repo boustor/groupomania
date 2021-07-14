@@ -1,18 +1,21 @@
-const Sauces = require('../models/Sauce');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const db = require('../app/models');
 const fs = require('fs');
+const Messages = db.messages;
 
-exports.CreateMessages = (req, res, next) => {
+exports.getAllMessages = (req, res, next) => {
+    Messages.findAll()
+        .then((messages) => res.status(200).json(messages))
+        .catch((error) => res.status(400).json({ error: error }));
+};
 
-}
+
 
 
 /*
 
-exports.getAllSauces = (req, res, next) => {
-    Sauces.find()
-        .then((sauces) => res.status(200).json(sauces))
-        .catch((error) => res.status(400).json({ error: error }));
-};
+
 
 exports.getOneSauces = (req, res, next) => {
     Sauces.findOne({
@@ -72,12 +75,12 @@ exports.modifySauces = (req, res, next) => {
     } else{
         saucesObject = {...req.body}
     }
-    
+
     const saucesObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {...req.body }
-    
+
     Sauces.updateOne({ _id: req.params.id }, {...saucesObject }).then(
         () => {
             res.status(201).json({
@@ -123,7 +126,7 @@ exports.likeSauces = (req, res, next) => {
                         if (req.body.like == -1 && lastLike == '') {
                             treat = dislikes(sauces, res, req.body)
                         } else
-                            // il annule sont vote                  
+                            // il annule sont vote
                             if (req.body.like == 0 && lastLike != '') {
                                 treat = clearLike(sauces, res, req.body, lastLike)
                             }
@@ -153,7 +156,7 @@ exports.likeSauces = (req, res, next) => {
         );
 };
 
-// recherche dernier vote 
+// recherche dernier vote
 function lastVote(sauces, body) {
     let lastLike = '';
 
