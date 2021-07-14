@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-  import {checkEmail } from "../fonction";
+ // import {checkEmail } from "../fonction";
 
   export default {
     name: 'LoginUser',
@@ -51,7 +51,8 @@
     methods: {
       createAccount: function () {
         let erreur = '';
-        if (this.email == '' || checkEmail(this.email === false)) {
+       // if (this.email == '' || checkEmail(this.email === false)) {
+         if (this.email == '') {
           this.ctrlEmail = true;
           erreur = true;
         } else {

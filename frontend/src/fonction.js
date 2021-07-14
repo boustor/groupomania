@@ -1,6 +1,7 @@
 // control adresse courriel
 export const checkEmail = (email) => {
-    if (!email.match(/[a-z0-9_\-.]+@[a-z0-9_\-.]+\.[a-z]+/i)) {
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!email.match(validRegex)){
         return false
     }
 }// control mot de passe
