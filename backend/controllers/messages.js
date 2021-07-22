@@ -10,19 +10,13 @@ exports.getAllMessages = (req, res, next) => {
         .catch((error) => res.status(400).json({ error: error }));
 };
 
-
-
-
-/*
-
-
-
-exports.getOneSauces = (req, res, next) => {
-    Sauces.findOne({
-        _id: req.params.id
+exports.getOneMessages = (req, res, next) => {
+    console.log(req.params.id)
+    Messages.findOne({
+        id: req.params.id,
     }).then(
-        (sauces) => {
-            return res.status(200).json(sauces);
+        (message) => {
+            return res.status(200).json(message);
         }
     ).catch(
         (error) => {
@@ -32,6 +26,13 @@ exports.getOneSauces = (req, res, next) => {
         }
     );
 };
+
+
+/*
+
+
+
+
 
 
 exports.createSauces = (req, res, next) => {

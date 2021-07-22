@@ -52,7 +52,7 @@
   import { checkMdp, checkEmail } from "../fonction";
 
   export default {
-    name: "CreateUser",
+    name: "addUser",
     data() {
       return {
         email: "",
@@ -66,19 +66,28 @@
     },
     methods: {
       createAccount: function () {
+        let erreur = ''
         if (this.nom == "") {
           this.ctrlNom = true;
+          erreur = true
         }
-        if (this.email == "" || checkEmail(this.email === false)) {
+        if (this.email == "" || !checkEmail(this.email)) {
           this.ctrlEmail = true;
+          erreur = true
         }
 
         if (this.password == "") {
           this.ctrlPswd = true;
+          erreur=true
         }
 
         if (checkMdp(this.password) == false) {
           this.ctrlPswd = true;
+          erreur= true
+        }
+
+        if (erreur == true) {
+          return;
         }
 
         const data = {
@@ -95,7 +104,7 @@
           .then((response) => response.json())
           .then((response) => {
             if (response.message == 'créé') {
-              this.$router.push('/LoginUser')
+              this.$router.push('/login')
             }
           })
           .catch(() => (this.error = true));

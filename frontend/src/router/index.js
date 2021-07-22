@@ -1,35 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
+import Adduser from '../views/AddUser.vue'
 
 const routes = [{
-        path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: () =>
-            import ('../views/LoginUser.vue')
-    },
-    {
-        path: '/CreateUser',
-        name: 'CreateUser',
-        component: () =>
-            import ('../views/CreateUser.vue')
-    },
-    {
-        path: '/Messages',
-        name: 'Messages',
-        component: () =>
-            import ('../views/Messages.vue')
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () =>
-            import ('../views/About.vue')
-    }
+    path: '/',
+    name: 'Login',
+    component: Login
+},
+{
+    path: '/home/:ecran/:data/',
+    name: 'Home',
+    component: Home,
+    props:true
+},
+{
+    path: '/addUser',
+    name: 'AddUser',
+    component: Adduser
+}
+/*
+,
+{
+    path: '/messages',
+    name: 'Messages',
+    component: () =>
+        import('../components/ListeMessages.vue')
+},
+{
+    path: '/message',
+    name: 'Message',
+    props:true,
+    component: () =>
+        import('../components/Message.vue')
+        
+}
+*/
 ]
 
 const router = createRouter({

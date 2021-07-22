@@ -1,9 +1,9 @@
 <template>
   <br>
   <div class="d-flex justify-content-center">
-    <div class="d-flex justify-content-center border border-1 shadow-lg col-sm-4 rounded">
+    <div class="d-flex justify-content-center border border-1 shadow-lg col-sm-4 rounded bg-white">
       <div class="col-sm-12">
-        <h4 class="mb-3 my-4">Login utilisateur</h4>
+        <h4 class="mb-3 my-4">Identifiant utilisateur</h4>
 
         <div class="my-4 px-3">
           <label for="email" class="form-label">Courriel</label>
@@ -24,20 +24,17 @@
             </div>
           </div>
         </div>
-
-        <button class="w-75 btn btn-primary btn-lg my-4" v-on:click="createAccount()">Valider</button>
-
-
+        <button class="w-75 btn btn-primary btn-lg my-4" v-on:click="loginAccount()">Valider</button>
       </div>
     </div>
 
   </div>
 </template>
 <script>
- // import {checkEmail } from "../fonction";
+  import { checkEmail } from "../fonction";
 
   export default {
-    name: 'LoginUser',
+    name: 'Login',
     data() {
       return {
         email: '',
@@ -49,17 +46,16 @@
       }
     },
     methods: {
-      createAccount: function () {
+      loginAccount: function () {
         let erreur = '';
-       // if (this.email == '' || checkEmail(this.email === false)) {
-         if (this.email == '') {
+        if (this.email == '' || !checkEmail(this.email)) {
           this.ctrlEmail = true;
           erreur = true;
         } else {
           this.ctrlEmail = false;
         }
 
-        if (this.password == '' ) {
+        if (this.password == '') {
           this.ctrlPswd = true;
           erreur = true;
         } else {
@@ -70,27 +66,31 @@
           return;
         }
 
-       const data = {
-         'email':this.email,
-         'password':this.password
-       }
-       const requestOptions = {
-         method:"POST",
-         headers:{"Content-Type":"application/json"},
-         body:JSON.stringify(data)
-       };
-        fetch('http://localhost:3000/api/auth/login',requestOptions)
-              .then(response => response.json())
-              .then(user => {
-                localStorage.setItem('user-token', user.token)
-                this.$router.push('/messages')
-                })
-              .catch(() => {
-                localStorage.removeItem('user-token')
-                })
+        const data = {
+          'email': this.email,
+          'password': this.password
+        }
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        };
+        fetch('http://localhost:3000/api/auth/login', requestOptions)
+          .then(response => response.json())
+          .then(user => {
+            localStorage.setItem('user-token', user.token)
+            //this.$router.push({name:'Home',params:{ecran : 'messages',data:'all'}})
+            this.$router.push({name:'Home',params:{ecran : 'ListeMessages', data:'null'}})
+            //this.$routeur.push({name:'Home'})
+          })
+          .catch(() => {
+            localStorage.removeItem('user-token')
+          })
       }
-    }
-
+    },
+    mounted() {
+      localStorage.removeItem('user-token')
+    },
   }
 </script>
 <style>

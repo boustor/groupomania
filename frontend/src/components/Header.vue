@@ -1,31 +1,12 @@
 <template>
-    <div id="entete">
+    <div class="entete">
         <div><img :src="require(`@/assets/groupomania.png`)" class="image"></div>
-
-        <div class="btn-group" role="group" v-if="connecter == 'non'">
-            <div id="boutonUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <img :src="require(`@/assets/offline_user.png`)" class="image">
-            </div>
-            <ul class="dropdown-menu" aria-labelledby="boutonUser">
-                <li>
-                    <router-link to="/login" class="lienUser">Connexion</router-link>
-                </li>
-                <li>
-                    <router-link to="/CreateUser" class="lienUser">Créer un compte</router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="btn-group" role="group" v-else>
-            <div id="boutonUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <img :src="require(`@/assets/online_user.png`)" class="image">
-            </div>
-            <ul class="dropdown-menu" aria-labelledby="boutonUser">
-                <li>
-                    <router-link to="/login" class="lienUser">Déconnexion</router-link>
-                </li>
-                <li>
-                    <router-link to="/Utilisateur" class="lienUser">Utilisateur</router-link>
-                </li>
+        <div>
+            <input class="menu-btn" type="checkbox" id="menu-btn" />
+            <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+            <ul class="menu">
+                <li><router-link :to="{name:'Home', params:{ecran:'ListeMessages', data:null}}">Messages</router-link></li>
+                <li><router-link :to="{name:'Login'}">Se déconnecter</router-link></li>
             </ul>
         </div>
     </div>
@@ -34,30 +15,22 @@
 
 <script>
     export default {
-        name: 'Header',
-        data: function () {
-            return {
-                connecter: 'non',
-                email: '',
-                prenom: '',
-                nom: '',
-                password: '',
-            }
-        }
+        name: 'Header'
     }
 </script>
 
 <style scoped>
-    #entete {
+    .entete {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
         height: 50px;
-        background-color: white;
+        background-color: #f5f5f5;
         border-bottom: 2px solid black;
         padding-left: 5px;
         padding-right: 20px;
+        z-index: 100;
     }
 
     .image {
@@ -66,15 +39,134 @@
 
     }
 
-
-    .lienUser {
-        text-decoration: none;
-        padding-left: 5px;
-        padding-right: 5px;
-        color: black;
+    .menu li {
+        margin-top: -5px;
     }
 
-    .lienUser:hover {
-        font-style: italic;
+    .entete ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+    }
+
+    .entete li a {
+        display: block;
+        padding: 20px 20px;
+        border-right: 1px solid #f4f4f4;
+        text-decoration: none;
+    }
+
+    .entete li a:hover,
+    .entete .menu-btn:hover {
+        background-color: #f4f4f4;
+    }
+
+
+    /* menu */
+    .entete .menu {
+        clear: both;
+        max-height: 0px;
+        transition: max-height .0s ease-out;
+    }
+
+    /* menu icon */
+
+    .entete .menu-icon {
+        cursor: pointer;
+        display: inline-block;
+        float: right;
+        padding: 28px 20px;
+        position: relative;
+        user-select: none;
+    }
+
+    .entete .menu-icon .navicon {
+        background: #333;
+        display: block;
+        height: 2px;
+        position: relative;
+        transition: background .2s ease-out;
+        width: 18px;
+    }
+
+    .entete .menu-icon .navicon:before,
+    .entete .menu-icon .navicon:after {
+        background: #333;
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        transition: all .2s ease-out;
+        width: 100%;
+    }
+
+    .entete .menu-icon .navicon:before {
+        top: 5px;
+    }
+
+    .entete .menu-icon .navicon:after {
+        top: -5px;
+    }
+
+    /* menu btn */
+
+    .entete .menu-btn {
+        display: none;
+    }
+
+    .entete .menu-btn:checked~.menu {
+        margin-top: 160px;
+        max-height: 240px;
+    }
+
+    .entete .menu-btn:checked~.menu-icon .navicon {
+        background: transparent;
+    }
+
+    .entete .menu-btn:checked~.menu-icon .navicon:before {
+        transform: rotate(-45deg);
+    }
+
+    .entete .menu-btn:checked~.menu-icon .navicon:after {
+        transform: rotate(45deg);
+    }
+
+    .entete .menu-btn:checked~.menu-icon:not(.steps) .navicon:before,
+    .entete .menu-btn:checked~.menu-icon:not(.steps) .navicon:after {
+        top: 100px;
+    }
+
+    /* 48em = 768px */
+
+    @media (min-width: 48em) {
+        .entete li {
+            float: left;
+        }
+
+        .entete li a {
+            padding: 20px 30px;
+        }
+
+        .entete .menu {
+            clear: none;
+            float: right;
+            max-height: none;
+        }
+
+        .entete .menu-icon {
+            display: none;
+        }
+
+        .entete .menu {
+            height: 50px;
+        }
+
+        .entete ul {
+            margin: 0px;
+            background-color: #fff;
+        }
     }
 </style>

@@ -21,7 +21,7 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/api/messages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjYyOTE0MzksImV4cCI6MTYyNjM3NzgzOX0.iq4IiHFmEdFjyRyINKyK6cmj-f859gGxbqntaqaOhzh
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjYzNDA4NTYsImV4cCI6MTYyNjQyNzI1Nn0.8A5mEQ7b3VEIdFhRCLDJw1ijvh9R2gSOLThrI9iUHA0
 
 ###
 POST http://localhost:3000/api/sauces/60942e493298672d2c1b933d/like

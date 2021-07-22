@@ -34,19 +34,18 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
        Users.findOne({ email: req.body.email })
-        .then(user => {
+        .then(user => { 
             if (!user) {
-                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+                return res.status(401).json({ message: 'Utilisateur non trouvé !' });
             }
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                        return res.status(401).json({ message: 'Email ou mot de passe incorrect !' });
                     }
                     res.status(200).json({
-
-                        id_usr: user.id_usr,
-                        token: jwt.sign({ id_usr: user.id_usr },
+                        usrId: user.id,
+                        token: jwt.sign({ userId: user.id},
                             process.env.TOKEN_KEY, { expiresIn: '24h' }
                         )
 
