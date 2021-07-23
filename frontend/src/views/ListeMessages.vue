@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'Messages',
+  name: 'ListeMessages',
   data() {
     return {
       listes: null,

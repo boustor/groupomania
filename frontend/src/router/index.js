@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../views/Login.vue'
-import Home from '../views/Home.vue'
 import Adduser from '../views/AddUser.vue'
 
 const routes = [{
@@ -9,33 +8,23 @@ const routes = [{
     component: Login
 },
 {
-    path: '/home/:ecran/:data/',
-    name: 'Home',
-    component: Home,
-    props:true
+    path: '/listeMessages',
+    name: 'ListeMessages',
+    component: () =>
+        import('../views/ListeMessages.vue')
+},
+{
+    path: '/message',
+    name: 'Message',
+    component: () =>
+        import('../views/Message.vue')
+
 },
 {
     path: '/addUser',
     name: 'AddUser',
     component: Adduser
 }
-/*
-,
-{
-    path: '/messages',
-    name: 'Messages',
-    component: () =>
-        import('../components/ListeMessages.vue')
-},
-{
-    path: '/message',
-    name: 'Message',
-    props:true,
-    component: () =>
-        import('../components/Message.vue')
-        
-}
-*/
 ]
 
 const router = createRouter({

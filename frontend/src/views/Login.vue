@@ -27,9 +27,16 @@
         <button class="w-75 btn btn-primary btn-lg my-4" v-on:click="loginAccount()">Valider</button>
       </div>
     </div>
-
   </div>
+  <router-link :to="{name:'AddUser'}">Créer un nouveau compte</router-link>
+<br />
+  <div class="messageErreur" v-show="messageErreur" >
+    <p>Courriel ou mot de passe incorrect</p>
+  </div>
+
 </template>
+
+
 <script>
   import { checkEmail } from "../fonction";
 
@@ -40,6 +47,7 @@
         email: '',
         nom: '',
         password: '',
+        messageErreur: false,
         ctrlNom: false,
         ctrlEmail: false,
         ctrlPswd: false
@@ -78,10 +86,12 @@
         fetch('http://localhost:3000/api/auth/login', requestOptions)
           .then(response => response.json())
           .then(user => {
+            if (user.message == 'impossible') {
+              this.messageErreur = true
+              return
+            }
             localStorage.setItem('user-token', user.token)
-            //this.$router.push({name:'Home',params:{ecran : 'messages',data:'all'}})
-            this.$router.push({name:'Home',params:{ecran : 'ListeMessages', data:'null'}})
-            //this.$routeur.push({name:'Home'})
+            this.$routeur.push('/listeMessages')
           })
           .catch(() => {
             localStorage.removeItem('user-token')
@@ -94,5 +104,10 @@
   }
 </script>
 <style>
-
+.messageErreur {
+  color:red;
+  size:15px;
+  font-weight: bold;
+  text-shadow: 0.1em 0.1em 0.1em black
+}
 </style>

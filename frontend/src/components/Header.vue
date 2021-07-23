@@ -5,7 +5,7 @@
             <input class="menu-btn" type="checkbox" id="menu-btn" />
             <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
             <ul class="menu">
-                <li><router-link :to="{name:'Home', params:{ecran:'ListeMessages', data:null}}">Messages</router-link></li>
+                <li><router-link :to="{name:'ListeMessages'}">Messages</router-link></li>
                 <li><router-link :to="{name:'Login'}">Se déconnecter</router-link></li>
             </ul>
         </div>

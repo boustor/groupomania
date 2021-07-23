@@ -1,16 +1,26 @@
 <template>
-    <router-view />
+  <Header v-show="isLoggedIn" />
+  <router-view />
 </template>
 
 <script>
+  import Header from './components/Header'
   export default {
-    name: 'App'
+    name: 'App',
+    components: {
+      Header
+    },
+    data() {
+      return {
+        isLoggedIn: false
+      }
+    }
   }
 </script>
 
 <style>
   body {
-    margin:0;
+    margin: 0;
     background-color: #ffffff;
   }
 

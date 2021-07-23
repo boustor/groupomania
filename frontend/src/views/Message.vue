@@ -36,8 +36,9 @@
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
-          data: JSON.stringify({ id_mess: this.id })
+          params: JSON.stringify({ 'id_mess': 'this.data'})
         };
+        console.log('requete')
 console.log(requestOptions)
         fetch("http://localhost:3000/api/messages/id", requestOptions)
           .then((message) => message.json())
@@ -50,8 +51,8 @@ console.log(requestOptions)
       },
     },
     mounted() {
-      this.id = this.data
-      console.log(this.id)
+      //this.id = this.data
+      //console.log(this.data)
       this.rechercheMessage()
     }
   }

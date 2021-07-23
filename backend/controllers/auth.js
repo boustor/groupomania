@@ -36,17 +36,17 @@ exports.login = (req, res, next) => {
        Users.findOne({ email: req.body.email })
         .then(user => { 
             if (!user) {
-                return res.status(401).json({ message: 'Utilisateur non trouvé !' });
+                return res.status(401).json({ message: 'impossible' });
             }
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ message: 'Email ou mot de passe incorrect !' });
+                        return res.status(401).json({ message: 'impossible' });
                     }
                     res.status(200).json({
                         usrId: user.id,
                         token: jwt.sign({ userId: user.id},
-                            process.env.TOKEN_KEY, { expiresIn: '24h' }
+                            process.env.TOKEN_KEY, { expiresIn: '2h' }
                         )
 
                     });
