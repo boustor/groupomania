@@ -91,7 +91,7 @@
               return
             }
             localStorage.setItem('user-token', user.token)
-            this.$routeur.push('/listeMessages')
+            //this.$routeur.push('/listeMessages')
           })
           .catch(() => {
             localStorage.removeItem('user-token')
@@ -106,8 +106,7 @@
 <style>
 .messageErreur {
   color:red;
-  size:15px;
+  size:20px;
   font-weight: bold;
-  text-shadow: 0.1em 0.1em 0.1em black
 }
 </style>

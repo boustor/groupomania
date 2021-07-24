@@ -14,10 +14,11 @@ const routes = [{
         import('../views/ListeMessages.vue')
 },
 {
-    path: '/message',
+    path: '/message/:id',
     name: 'Message',
     component: () =>
-        import('../views/Message.vue')
+        import('../views/Message.vue'),
+    props:true
 
 },
 {

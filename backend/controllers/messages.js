@@ -7,7 +7,7 @@ const Messages = db.messages;
 exports.getAllMessages = (req, res, next) => {
     Messages.findAll()
         .then((messages) => res.status(200).json(messages))
-        .catch((error) => res.status(400).json({ error: error }));
+        .catch((error) => res.status(400).json({ message: 'rien' }));
 };
 
 exports.getOneMessages = (req, res, next) => {
@@ -29,10 +29,6 @@ exports.getOneMessages = (req, res, next) => {
 
 
 /*
-
-
-
-
 
 
 exports.createSauces = (req, res, next) => {
