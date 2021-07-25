@@ -7,7 +7,7 @@ const Messages = db.messages;
 exports.getAllMessages = (req, res, next) => {
     Messages.findAll()
         .then((messages) => res.status(200).json(messages))
-        .catch((error) => res.status(400).json({ message: 'rien' }));
+        .catch(() => res.status(400).json({ messErr: 'rien' }));
 };
 
 exports.getOneMessages = (req, res, next) => {
@@ -15,16 +15,15 @@ exports.getOneMessages = (req, res, next) => {
         .then((message) => {
             return res.status(200).json(message);
         })
-        .catch((error) => {
+        .catch(() => {
             return res.status(404).json({
-                error: error
+                messErr: 'Problème recherche'
             });
         });
 };
 
 exports.updateMessages = (req, res, next) => {
 
-    console.log(req.params.id)
     Messages.update(
         {
             id_usr: req.body.id_usr,
@@ -43,7 +42,7 @@ exports.updateMessages = (req, res, next) => {
             }
         ).catch(
             (error) => {
-                return res.status(404).json({ error: error })
+                return res.status(404).json({ messErr: error })
             }
         )
 }

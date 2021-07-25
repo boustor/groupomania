@@ -29,19 +29,19 @@ exports.signup = (req, res, next) => {
                 }
             })
         })
-        .catch(error => res.status(500).json({ message: 'Erreur dans le module de création utilisateur' }));
+        .catch(error => res.status(500).json({ messErr: 'Erreur dans le module de création utilisateur' }));
 };
 
 exports.login = (req, res, next) => {
        Users.findOne({ email: req.body.email })
         .then(user => { 
             if (!user) {
-                return res.status(401).json({ message: 'impossible' });
+                return res.status(401).json({ messErr: 'impossible' });
             }
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ message: 'impossible' });
+                        return res.status(401).json({ messErr: 'impossible' });
                     }
                     res.status(200).json({
                         usrId: user.id,
@@ -51,7 +51,7 @@ exports.login = (req, res, next) => {
 
                     });
                 })
-                .catch(error => res.status(500).json({ message: 'Problème sur le retour utilisateur' }));
+                .catch(error => res.status(500).json({ messErr: 'Problème sur le retour utilisateur' }));
         })
-        .catch(error => res.status(500).json({ message: 'problème dans la recherche' }));
+        .catch(error => res.status(500).json({ messErr: 'problème dans la recherche' }));
 };
