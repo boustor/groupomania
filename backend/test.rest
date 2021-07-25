@@ -21,25 +21,22 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/api/messages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjYzNDA4NTYsImV4cCI6MTYyNjQyNzI1Nn0.8A5mEQ7b3VEIdFhRCLDJw1ijvh9R2gSOLThrI9iUHA0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2LCJpYXQiOjE2MjcxNDk5MTQsImV4cCI6MTYyNzE1NzExNH0.gsv3FmanUWhP-7H-ov-UUjUHxxyZW10AdN1KdVE0OJ0
 
 ###
-POST http://localhost:3000/api/sauces/60942e493298672d2c1b933d/like
+GET http://localhost:3000/api/messages/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDk1MGUxNDFhZWFiYjQ2NDQzYTA0NDYiLCJpYXQiOjE2MjA5NzgxNDIsImV4cCI6MTYyMTA2NDU0Mn0.s-EwKpQ_82R6Q5Fdpc3YxUprnh1WSpDVnHpow4-inzg
-
-{
-    "userId": "60942cef3298672d2c1b933c",
-    "like": 0
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2LCJpYXQiOjE2MjcxNDk5MTQsImV4cCI6MTYyNzE1NzExNH0.gsv3FmanUWhP-7H-ov-UUjUHxxyZW10AdN1KdVE0OJ0
 
 ###
-PUT http://localhost:3000/api/sauces/60942cef3298672d2c1b933c
+POST http://localhost:3000/api/messages/update/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MDk1MGUxNDFhZWFiYjQ2NDQzYTA0NDYiLCJpYXQiOjE2MjA5NzgxNDIsImV4cCI6MTYyMTA2NDU0Mn0.s-EwKpQ_82R6Q5Fdpc3YxUprnh1WSpDVnHpow4-inzg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjI2LCJpYXQiOjE2MjcxNjQ1NzAsImV4cCI6MTYyNzE3MTc3MH0.a_5ueHTuQ05B8yKVUhnworCaOn6RfQH9I8olbeXkViA
 
 {
-    "dislikes":5000
+    "objet": "testmessage",
+    "id_usr": 26,
+    "message":"test de message et hop"
 }
 
 ###

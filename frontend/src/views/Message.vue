@@ -9,9 +9,9 @@
     </div>
     <div class="mb-3 col-sm-6">
       <label for="message" class="form-label">Message</label>
-      <textarea class="form-control" id="message"></textarea>
+      <textarea class="form-control" id="message" v-model="message"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Valider</button>
+    <button class="btn btn-primary" v-on:click="Valider()">Valider</button>
   </form>
 
 </div>
@@ -24,7 +24,8 @@
     data() {
       return {
         objet:null,
-        message:null
+        message:null,
+        id_usr:null
       }
     },
     methods: {
@@ -36,19 +37,20 @@
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
-          params: JSON.stringify({ 'id_mess': this.id})
         };
-
-console.log(requestOptions)
-        fetch("http://localhost:3000/api/messages/id", requestOptions)
+        fetch("http://localhost:3000/api/messages/"+this.id, requestOptions)
           .then((message) => message.json())
           .then((message) => {
             if (!message) {
-              this.$router.push('/login')
+              this.$router.push('/listeMessages')
             }
             this.objet = message.objet;
+            this.message= message.message;
           })
       },
+      Valider: function() {
+        
+      }
     },
     mounted() {
       this.rechercheMessage()

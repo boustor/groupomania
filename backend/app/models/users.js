@@ -8,13 +8,16 @@ module.exports = (sequelize, Sequelize) => {
         },
         */
         name: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue:"Administrateur"
         },
         email: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue:"admin@groupo.com"
         },
         password: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            defaultValue:"Admin&2Admin"
         },
         admin: {
             type: Sequelize.BOOLEAN,

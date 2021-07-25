@@ -13,6 +13,9 @@ Aucun message
         ><font-awesome-icon :icon="['fas', 'edit']"
       /></router-link>
     </div>
+    <div>
+      {{ message.message}}
+    </div>
   </div>
 </template>
 

@@ -7,5 +7,6 @@ const auth = require('../middleware/auth');
 
 router.get('/', auth, messagesCtrl.getAllMessages);
 router.get('/:id', auth, messagesCtrl.getOneMessages);
+router.post('/update/:id', auth, messagesCtrl.updateMessages);
 
 module.exports = router;

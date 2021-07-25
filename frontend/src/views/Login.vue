@@ -90,12 +90,15 @@
               this.messageErreur = true
               return
             }
+            alert('coucou je passe')
             localStorage.setItem('user-token', user.token)
-            //this.$routeur.push('/listeMessages')
+            this.$router.push('/listeMessages')
           })
+          /*
           .catch(() => {
             localStorage.removeItem('user-token')
           })
+          */
       }
     },
     mounted() {

@@ -11,23 +11,42 @@ exports.getAllMessages = (req, res, next) => {
 };
 
 exports.getOneMessages = (req, res, next) => {
-    console.log(req.params)
-    Messages.findOne({
-        id: req.params.id,
-    }).then(
-        (message) => {
+    Messages.findOne({ where: { id: req.params.id } })
+        .then((message) => {
             return res.status(200).json(message);
-        }
-    ).catch(
-        (error) => {
+        })
+        .catch((error) => {
             return res.status(404).json({
                 error: error
             });
-        }
-    );
+        });
 };
 
+exports.updateMessages = (req, res, next) => {
 
+    console.log(req.params.id)
+    Messages.update(
+        {
+            id_usr: req.body.id_usr,
+            objet: req.body.objet,
+            message: req.body.message
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    )
+        .then(
+            (retour) => {
+                return res.status(200).json(retour);
+            }
+        ).catch(
+            (error) => {
+                return res.status(404).json({ error: error })
+            }
+        )
+}
 /*
 
 
