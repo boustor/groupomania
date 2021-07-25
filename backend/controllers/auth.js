@@ -13,7 +13,7 @@ exports.signup = (req, res, next) => {
                 defaults: {
                 name: name,
                 email: email,
-                admin: admin,
+                admin: '0',
                 password: hash
                 }
             }).then(function ([user,created]) {

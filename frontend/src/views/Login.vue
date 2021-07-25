@@ -28,12 +28,11 @@
       </div>
     </div>
   </div>
-  <router-link :to="{name:'AddUser'}">Créer un nouveau compte</router-link>
+  <router-link :to="{name:'AddUser'}" class="nouveauCompte">Créer un nouveau compte</router-link>
 <br />
   <div class="messageErreur" v-show="messageErreur" >
     <p>Courriel ou mot de passe incorrect</p>
   </div>
-
 </template>
 
 
@@ -90,19 +89,19 @@
               this.messageErreur = true
               return
             }
-            alert('coucou je passe')
-            localStorage.setItem('user-token', user.token)
+            this.$cookies.set('userToken',user.token,'1d');
+            //localStorage.setItem('userToken', user.token)
             this.$router.push('/listeMessages')
           })
-          /*
           .catch(() => {
-            localStorage.removeItem('user-token')
+            this.$cookies.remove('userToken')
+            //localStorage.removeItem('userToken')
           })
-          */
       }
     },
     mounted() {
-      localStorage.removeItem('user-token')
+      this.$cookies.remove('userToken')
+      //localStorage.removeItem('user-token')
     },
   }
 </script>
@@ -111,5 +110,9 @@
   color:red;
   size:20px;
   font-weight: bold;
+}
+.nouveauCompte, .nouveauCompte:hover {
+  text-decoration: none;
+  color:black;
 }
 </style>

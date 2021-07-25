@@ -47,6 +47,9 @@
       </div>
     </div>
   </div>
+  <br />
+   <router-link :to="{name:'Login'}" class="nouveauCompte">Se connecter</router-link>
+
 </template>
 <script>
   import { checkMdp, checkEmail } from "../fonction";
@@ -104,7 +107,7 @@
           .then((response) => response.json())
           .then((response) => {
             if (response.message == 'créé') {
-              this.$router.push('/login')
+              this.$router.push('/')
             }
           })
           .catch(() => (this.error = true));
