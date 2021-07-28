@@ -2,7 +2,7 @@
   <div class="pasMessage" v-show="isListe">Aucun message</div>
 
   <br />
-  <button class="w-25 btn btn-primary" v-on:click="this.$router.push({name:'Message',params:{id:0}})">Ajouter un message</button>
+  <button class="bouton" v-on:click="this.$router.push({name:'Message',params:{id:0}})">Ajouter un message</button>
 
   <div v-for="message in listes" :key="message.id" class="cadreMessage">
     <div>{{ message.objet }}</div>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     listeMessage: function () {
-      const token = this.$cookies.get("userToken"); //localStorage.getItem("userToken");
+      const token = localStorage.getItem('userToken');
       if (!token) {
         this.$router.push("/");
       }

@@ -1,10 +1,11 @@
 <template>
-  <Header v-show="isLoggedIn" />
+  <Header v-show="isLoggedIn" :key="reHeader" />
   <router-view />
 </template>
 
 <script>
 import Header from "./components/Header";
+
 export default {
   name: "App",
   components: {
@@ -12,18 +13,27 @@ export default {
   },
   data() {
     return {
+
     };
+  },
+  methods: {
+    forceRerender:function() {
+      this.reHeader ++
+    }
   },
   computed: {
     isLoggedIn() {
-      
+    
       if (this.$route.path != "/" && this.$route.path != "/addUser") {
         return true;
       } else {
         return false;
       }
-    },
+    }
   },
+  updated(){
+    this.forceRerender()
+  }
 };
 </script>
 

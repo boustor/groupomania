@@ -3,6 +3,16 @@ const jwt = require('jsonwebtoken');
 const db = require('../app/models');
 const Users = db.users;
 
+exports.allUsers = (req, res, next) => {
+    Users.findAll({
+        where:{
+            [Op.ne]:1,
+        }
+    })
+    .then((listeUsers) => res.status(200).json(listeUsers))
+    .catch(() => res.status(400).json({ messErr: 'rien' }));
+
+}
 
 exports.signup = (req, res, next) => {
     const { name, email, password, admin } = req.body;

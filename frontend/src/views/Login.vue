@@ -84,24 +84,22 @@
         };
         fetch('http://localhost:3000/api/auth/login', requestOptions)
           .then(response => response.json())
+          
           .then(user => {
-            if (user.message == 'impossible') {
+            if (user.messErr == 'impossible') {
               this.messageErreur = true
               return
             }
-            this.$cookies.set('userToken',user.token,'1d');
-            //localStorage.setItem('userToken', user.token)
+            localStorage.setItem('userToken', user.token)
             this.$router.push('/listeMessages')
           })
           .catch(() => {
-            this.$cookies.remove('userToken')
-            //localStorage.removeItem('userToken')
+            localStorage.removeItem('userToken')
           })
       }
     },
     mounted() {
-      this.$cookies.remove('userToken')
-      //localStorage.removeItem('user-token')
+      localStorage.removeItem('user-token')
     },
   }
 </script>
