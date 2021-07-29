@@ -72,19 +72,19 @@
         if (erreur == true) {
           return;
         }
-
         const data = {
           'email': this.email,
           'password': this.password
         }
+
         const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         };
+
         fetch('http://localhost:3000/api/auth/login', requestOptions)
           .then(response => response.json())
-          
           .then(user => {
             if (user.messErr == 'impossible') {
               this.messageErreur = true

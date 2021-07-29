@@ -9,10 +9,8 @@ exports.init = () => {
         .catch(() => {
             db.sequelize.sync();
             //
-         
             bcrypt.hash("Super&2User", 10)
             .then(hash => {
-                console.log("password : "+hash)
                 User.create({
                     name: "Admin",
                     email: "admin@groupo.com",
@@ -21,8 +19,5 @@ exports.init = () => {
                 })
     
             });
-            /*
-            */
-            //
         });
 }

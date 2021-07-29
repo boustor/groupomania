@@ -38,7 +38,7 @@ exports.updateMessages = (req, res, next) => {
     )
         .then(
             (retour) => {
-                return res.status(200).json(retour);
+                return res.status(201).json(retour);
             }
         ).catch(
             (error) => {

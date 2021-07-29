@@ -1,18 +1,21 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../app/models');
+const { Op } = require("sequelize");
+
 const Users = db.users;
 
 exports.allUsers = (req, res, next) => {
     Users.findAll({
-        where:{
-            [Op.ne]:1,
+        where: {
+            admin: {
+                [Op.ne]: 1,
+            }
         }
     })
-    .then((listeUsers) => res.status(200).json(listeUsers))
-    .catch(() => res.status(400).json({ messErr: 'rien' }));
-
-}
+        .then((listeUsers) => res.status(200).json(listeUsers))
+        .catch(() => res.status(400).json({ messErr: 'rien' }));
+};
 
 exports.signup = (req, res, next) => {
     const { name, email, password, admin } = req.body;
@@ -21,18 +24,18 @@ exports.signup = (req, res, next) => {
             Users.findOrCreate({
                 where: { email: email },
                 defaults: {
-                name: name,
-                email: email,
-                admin: '0',
-                password: hash
+                    name: name,
+                    email: email,
+                    admin: '0',
+                    password: hash
                 }
-            }).then(function ([user,created]) {
+            }).then(function ([user, created]) {
                 if (!created) {
                     res.status(400).send('Compte courriel déjà existant');
                 } else {
                     if (user) {
                         //res.send(users);
-                        res.status(200).json({message:'créé'});
+                        res.status(200).json({ message: 'créé' });
                     } else {
                         res.status(400).send('Problème de création de l\'utilisateur');
                     }
@@ -43,8 +46,8 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-       Users.findOne({ email: req.body.email })
-        .then(user => { 
+    Users.findOne({ email: req.body.email })
+        .then(user => {
             if (!user) {
                 return res.status(401).json({ messErr: 'impossible' });
             }
@@ -55,7 +58,7 @@ exports.login = (req, res, next) => {
                     }
                     res.status(200).json({
                         usrId: user.id,
-                        token: jwt.sign({ userId: user.id},
+                        token: jwt.sign({ userId: user.id },
                             process.env.TOKEN_KEY, { expiresIn: '2h' }
                         )
 
