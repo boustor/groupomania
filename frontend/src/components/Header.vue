@@ -1,7 +1,7 @@
 <template>
     <div class="entete">
         <div>
-            <input type="checkbox" id="ham-menu" />
+            <input type="checkbox" id="ham-menu" v-model="cacheMenu" />
             <label for="ham-menu" class="menuLabel">
                 <div class="hide-des">
                     <span class="menu-line"></span>
@@ -13,10 +13,14 @@
             <div class="ham-menu">
                 <ul class="centre-text bold-text">
                     <li>
-                        <router-link :to="{name:'Utilisateurs'}">Utilisateurs</router-link>
+                        <router-link :to="{name:'Utilisateurs'}">
+                            <span v-on:click="closeMenu">Utilisateurs</span>
+                        </router-link>
                     </li>
                     <li>
-                        <router-link :to="{name:'ListeMessages'}">Messages</router-link>
+                        <router-link :to="{name:'ListeMessages'}">
+                            <span v-on:click="closeMenu">Messages</span>
+                        </router-link>
                     </li>
                     <li>
                         <router-link :to="{name:'Login'}">Se déconnecter</router-link>
@@ -31,7 +35,18 @@
 
 <script>
     export default {
-        name: 'Header'
+        name: 'Header',
+        data() {
+            return {
+                cacheMenu: false,
+            }
+        },
+        methods: {
+            closeMenu: function () {
+                this.cacheMenu = false;
+            }
+        },
+
     }
 </script>
 
@@ -53,6 +68,4 @@
         padding-left: 10px;
 
     }
-
-
 </style>

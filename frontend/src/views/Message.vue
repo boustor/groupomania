@@ -41,12 +41,11 @@ export default {
   },
   methods: {
     rechercheMessage: function () {
-      const token = this.$cookies.get("userToken"); //localStorage.getItem("user-token");
       const requestOptions = {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + localStorage.getItem("user-token"),
         },
       };
       fetch("http://localhost:3000/api/messages/" + this.id, requestOptions)

@@ -1,5 +1,5 @@
 <template>
-  <Header v-show="isLoggedIn" :key="reHeader" />
+  <Header v-show="isLoggedIn" />
   <router-view />
 </template>
 
@@ -13,17 +13,11 @@ export default {
   },
   data() {
     return {
-
+      reHeader:0
     };
   },
-  methods: {
-    forceRerender:function() {
-      this.reHeader ++
-    }
-  },
   computed: {
-    isLoggedIn() {
-    
+    isLoggedIn() {  
       if (this.$route.path != "/" && this.$route.path != "/addUser") {
         return true;
       } else {
@@ -31,9 +25,6 @@ export default {
       }
     }
   },
-  updated(){
-    this.forceRerender()
-  }
 };
 </script>
 
