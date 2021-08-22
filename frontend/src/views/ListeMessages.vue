@@ -2,9 +2,18 @@
   <div class="pasMessage" v-show="isListe">Aucun message</div>
 
   <br />
-  <button class="bouton" v-on:click="this.$router.push({name:'Message',params:{id:0}})">Ajouter un message</button>
+  <button
+    class="bouton"
+    v-on:click="this.$router.push({ name: 'Message', params: { id: 0 } })"
+  >
+    Ajouter un message
+  </button>
 
   <div v-for="message in listes" :key="message.id" class="cadreMessage">
+    <div class="enteteMessage">
+      <div>message de : {{ message.nom }}</div>
+      <div>le : {{ dateTime(message.createdAt) }}</div>
+    </div>
     <div>{{ message.objet }}</div>
     <div>{{ message.id_usr }}</div>
     <div>
@@ -19,6 +28,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "ListeMessages",
   data() {
@@ -28,8 +39,11 @@ export default {
     };
   },
   methods: {
+    dateTime(value) {
+      return moment(value).format("DD-MM-YYYY");
+    },
     listeMessage: function () {
-      const token = localStorage.getItem('userToken');
+      const token = localStorage.getItem("userToken");
       if (!token) {
         this.$router.push("/");
       }
@@ -78,5 +92,10 @@ export default {
   color: blue;
   size: 30px;
   font-weight: bold;
+}
+.enteteMessage {
+  display:flex;
+  align-content: space-between;
+  width:100%;
 }
 </style>

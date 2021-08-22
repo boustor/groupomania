@@ -11,11 +11,6 @@ export default {
   components: {
     Header,
   },
-  data() {
-    return {
-      reHeader:0
-    };
-  },
   computed: {
     isLoggedIn() {  
       if (this.$route.path != "/" && this.$route.path != "/addUser") {

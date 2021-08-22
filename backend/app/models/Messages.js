@@ -3,11 +3,14 @@ module.exports = (sequelize, Sequelize) => {
         id_usr: {
             type: Sequelize.INTEGER
         },
+        nom : {
+            type:Sequelize.STRING
+        },
         objet: {
             type: Sequelize.STRING
         },
         message: {
-            type: Sequelize.BLOB
+            type: Sequelize.TEXT
         },
         createdAt: {
             type: 'TIMESTAMP',

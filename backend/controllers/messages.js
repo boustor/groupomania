@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../app/models');
 const fs = require('fs');
 const Messages = db.messages;
+const User = db.users;
 
 exports.getAllMessages = (req, res, next) => {
     Messages.findAll()
@@ -22,33 +23,97 @@ exports.getOneMessages = (req, res, next) => {
         });
 };
 
-exports.updateMessages = (req, res, next) => {
-
-    Messages.update(
-        {
-            id_usr: req.body.id_usr,
-            objet: req.body.objet,
-            message: req.body.message
-        },
-        {
-            where: {
-                id: req.params.id
+exports.createOrUpdate = (req, res, next) => {
+    const { id, objet, message } = req.body;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+    const idUser = decodedToken.userId;
+    User.findOne({
+        where: {id:idUser}
+      }).then(user => {
+          if (user) {
+              console.log(user)
+            Messages.findOrCreate({
+                where: { id: id },
+                defaults: {
+                    id_usr: user.id,
+                    nom: user.name,
+                    objet: objet,
+                    message: message
+                }
+            }).then(function ([message, created]) {
+                if (!created) {
+                    Messages.update(
+                        {
+                            id_usr: infoUser.id_usr,
+                            nom: infoUser.nom,
+                            objet: objet,
+                            message: message
+                        },
+                        {
+                            where: {
+                                id: id
+                            }
+                        })
+                } else {
+                    if (message) {
+                        res.status(200).json({ message: 'créé' });
+                    } else {
+                        res.status(400).send('Problème de création du message');
+                    }
+                }
+            });
+          }
+      });
+    /*
+    Messages.findOrCreate({
+        where: { id: id },
+        defaults: {
+            id_usr: infoUser.id_usr,
+            nom: infoUser.nom,
+            objet: objet,
+            message: message
+        }
+    }).then(function ([message, created]) {
+        if (!created) {
+            Messages.update(
+                {
+                    id_usr: infoUser.id_usr,
+                    nom: infoUser.nom,
+                    objet: objet,
+                    message: message
+                },
+                {
+                    where: {
+                        id: id
+                    }
+                })
+        } else {
+            if (message) {
+                res.status(200).json({ message: 'créé' });
+            } else {
+                res.status(400).send('Problème de création du message');
             }
         }
-    )
-        .then(
-            (retour) => {
-                return res.status(201).json(retour);
-            }
-        ).catch(
-            (error) => {
-                return res.status(404).json({ messErr: error })
-            }
-        )
+    });
+    */
 }
 /*
+findUser = (req,res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+    const id = decodedToken.userId;
+    /*
+     User.findOne({ where: { id } })
+        .then(user => {
+            done(null, res)
+        });
 
-
+ User.findOne({ where: { id: id } })
+.then((retour) => {res.retour})
+}
+*/
+/*
 exports.createSauces = (req, res, next) => {
 
     const saucesObject = JSON.parse(req.body.sauce);
