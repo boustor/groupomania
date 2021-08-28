@@ -68,3 +68,7 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ messErr: 'problème dans la recherche' }));
 };
+
+exports.ctrlToken = (req, res, next) => {
+    return res.status(200).json({ messErr: 'okToken' });
+};

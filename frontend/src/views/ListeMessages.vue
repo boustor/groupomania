@@ -23,6 +23,11 @@
       <router-link :to="{ name: 'Message', params: { id: message.id } }"
         ><font-awesome-icon :icon="['fas', 'edit']"
       /></router-link>
+      &nbsp; 
+      &nbsp;
+      <span class="butSupprimer" v-on:click="supprimerMessage">
+        <font-awesome-icon :icon="['fas', 'trash']"
+    /></span>
     </div>
   </div>
 </template>
@@ -42,6 +47,7 @@ export default {
     dateTime(value) {
       return moment(value).format("DD-MM-YYYY");
     },
+    // ---------- on va rechercher les messages ----------
     listeMessage: function () {
       const token = localStorage.getItem("userToken");
       if (!token) {
@@ -58,10 +64,9 @@ export default {
       fetch("http://localhost:3000/api/messages", requestOptions)
         .then((listes) => listes.json())
         .then((listes) => {
-          if (!listes) {
+          if (!listes || listes.messErr == "Etoken") {
             this.$router.push("/");
           }
-
           if (listes == "") {
             this.isListe = true;
             // afficher aucun message
@@ -70,6 +75,10 @@ export default {
           }
         });
     },
+        // ---------- On supprimer le message ----------
+        supprimerMessage: function() {
+          
+        }
   },
   mounted() {
     this.listeMessage();
@@ -87,6 +96,9 @@ export default {
   height: 35px;
   border: 1px solid black;
   border-radius: 0 0 5px 5px;
+  text-align: right;
+  padding-top:5px;
+  padding-right:15px;
 }
 .pasMessage {
   color: blue;
@@ -97,5 +109,8 @@ export default {
   display:flex;
   align-content: space-between;
   width:100%;
+}
+.butSupprimer{
+  color:red;
 }
 </style>

@@ -14,9 +14,14 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "courriel@courriel.com",
-    "password": "123&Aabc"
+    "email": "admin@groupo.com",
+    "password": "Super&2User"
 }
+
+###
+GET http://localhost:3000/api/auth/ctrlToken
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYyOTk4ODMxMywiZXhwIjoxNjI5OTk1NTEzfQ.Xc7mRWLiAuGH8Sfx0ohQdIm_J49x-rwWhA92vFzoZas
 
 ###
 GET http://localhost:3000/api/messages

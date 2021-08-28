@@ -32,14 +32,13 @@ exports.createOrUpdate = (req, res, next) => {
         where: {id:idUser}
       }).then(user => {
           if (user) {
-              console.log(user)
             Messages.findOrCreate({
                 where: { id: id },
                 defaults: {
                     id_usr: user.id,
                     nom: user.name,
                     objet: objet,
-                    message: message
+                    message: message,
                 }
             }).then(function ([message, created]) {
                 if (!created) {

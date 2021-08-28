@@ -6,34 +6,36 @@ const routes = [{
     path: '/',
     name: 'Login',
     component: () =>
-    import('../views/Login.vue')
+        import('../views/Login.vue')
+},
+{
+    path: '/addUser',
+    name: 'AddUser',
+    component: () =>
+        import('../views/AddUser.vue')
 },
 {
     path: '/listeMessages',
     name: 'ListeMessages',
     component: () =>
-        import('../views/ListeMessages.vue')
+        import('../views/ListeMessages.vue'),
+    meta: { requireAuth: true }
 },
 {
     path: '/message/:id',
     name: 'Message',
     component: () =>
         import('../views/Message.vue'),
-    props:true
+    props: true,
+    meta: { requireAuth: true }
 
-},
-{
-    path: '/addUser',
-    name: 'AddUser',
-    component: () =>
-    import('../views/AddUser.vue')
 },
 {
     path: '/utilisateurs',
     name: 'Utilisateurs',
     component: () =>
-    import('../views/Utilisateurs.vue'),
-    meta:{requireAuth:true}
+        import('../views/Utilisateurs.vue'),
+    meta: { requireAuth: true }
 }
 ]
 
@@ -43,16 +45,31 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
-/*
-router.beforeEach((to,from,next) => {
+
+router.beforeEach((to, from, next) => {
     if (to.meta.requireAuth) {
         const token = localStorage.getItem('userToken');
-        if (!token) {
-          next({name:'Login'});
-        }
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+        };
+        fetch("http://localhost:3000/api/auth/ctrlToken", requestOptions)
+            .then((control) => control.json())
+            .then((control) => {
+                if (control.messErr == "Etoken") {
+                    console.log(control.messErr)
+                    next({ name: 'Login' });
+                } else {
+                    next();
+                }
+                
+            });
     } else {
         next();
     }
-    });
-*/
+});
+
 export default router

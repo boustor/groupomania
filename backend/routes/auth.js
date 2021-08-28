@@ -9,5 +9,6 @@ const auth = require('../middleware/auth');
 router.get('/',auth, authCtrl.allUsers);
 router.post('/signup', ctrlPassword, authCtrl.signup);
 router.post('/login', authCtrl.login);
+router.get('/ctrlToken',auth, authCtrl.ctrlToken)
 
 module.exports = router;

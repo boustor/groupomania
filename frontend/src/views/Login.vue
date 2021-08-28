@@ -99,7 +99,7 @@
       }
     },
     mounted() {
-      localStorage.removeItem('user-token')
+      localStorage.removeItem('userToken')
     },
   }
 </script>
