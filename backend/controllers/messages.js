@@ -14,11 +14,13 @@ exports.getAllMessages = (req, res, next) => {
 exports.getOneMessages = (req, res, next) => {
     Messages.findOne({ where: { id: req.params.id } })
         .then((message) => {
-            return res.status(200).json(message);
+            return res.status(200).json({
+                messErr: 'oRetour'
+            });
         })
         .catch(() => {
             return res.status(404).json({
-                messErr: 'Problème recherche'
+                messErr: 'eRetour'
             });
         });
 };
@@ -64,6 +66,20 @@ exports.createOrUpdate = (req, res, next) => {
             });
           }
       });
+
+exports.supprimerMessage= (req, res, next) => {
+    Messages.destroy({ where: { id: req.params.id } })
+    .then((message) => {
+        return res.status(200).json(message);
+    })
+    .catch(() => {
+        return res.status(404).json({
+            messErr: 'ESuppres'
+        });
+    });
+}
+
+
     /*
     Messages.findOrCreate({
         where: { id: id },

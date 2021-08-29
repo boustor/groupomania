@@ -75,6 +75,7 @@
         fetch("http://localhost:3000/api/messages/" + this.id, requestOptions)
           .then((message) => message.json())
           .then((message) => {
+            console.log(message.messErr)
             if (message.messErr == "Etoken") {
               this.$router.push("/");
             }
