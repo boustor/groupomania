@@ -59,9 +59,7 @@ router.beforeEach((to, from, next) => {
         fetch("http://localhost:3000/api/auth/ctrlToken", requestOptions)
             .then((control) => control.json())
             .then((control) => {
-                console.log(control.messErr)
                 if (control.messErr == "Etoken") {
-                    console.log(control.messErr)
                     next({ name: 'Login' });
                 } else {
                     next();

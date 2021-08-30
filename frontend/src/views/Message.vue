@@ -39,7 +39,20 @@
           <img v-if="imageView" :src="imageView" class="affichageImage" />
         </div>
 
+        <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
         <button class="bouton" v-on:click="validerMessage()">Valider</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="alert-mask" v-if="isAlert">
+    <div class="alert-wrapper">
+      <div class="alert-container">
+        <div class="alert-body">
+          Message supprimé
+        </div>
       </div>
     </div>
   </div>
@@ -54,8 +67,10 @@
         objet: null,
         message: null,
         id_usr: null,
-        fileimg:null,
+        fileimg: null,
         imageView: null,
+        isMessage: null,
+        isAlert: false,
       };
     },
     methods: {
@@ -63,19 +78,21 @@
         const image = file.target.files[0];
         this.imageView = URL.createObjectURL(image);
       },
+      affmessage: function () {
+
+      },
       // ---------- on recherche un message ----------
       rechercheMessage: function () {
         const requestOptions = {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("user-token"),
+            Authorization: "Bearer " + localStorage.getItem("userToken"),
           },
         };
         fetch("http://localhost:3000/api/messages/" + this.id, requestOptions)
           .then((message) => message.json())
           .then((message) => {
-            console.log(message.messErr)
             if (message.messErr == "Etoken") {
               this.$router.push("/");
             }
@@ -96,7 +113,7 @@
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
-          
+
           //formData.append('fileImg', this.imageView),
           body: JSON.stringify({
             id: this.id,
@@ -110,10 +127,37 @@
             if (message.messErr == "Etoken") {
               this.$router.push("/");
             }
+            this.$router.push('/listeMessages')
+          });
+      },
+      // ---------- On supprimer le message ----------
+      supprimerMessage: function (id) {
+        console.log(id)
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+          this.$router.push("/");
+        }
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+
+        fetch("http://localhost:3000/api/messages/supprimer/" + id, requestOptions)
+          .then((listes) => listes.json())
+          .then((listes) => {
+            if (!listes || listes.messErr == "Etoken") {
+              this.$router.push("/");
+            } else {
+              this.isAlert = true;
+              setTimeout(() => { this.isAlert = false }, 800);
+              this.$router.push('/listeMessages')
+            }
           });
       },
     },
-
     mounted() {
       if (this.id != 0) this.rechercheMessage();
     },

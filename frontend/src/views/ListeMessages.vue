@@ -16,6 +16,13 @@
     <div>
       {{ message.message }}
     </div>
+
+    <div>
+    <router-link :to="{ name: 'Message', params: { id: message.id } }">
+      <font-awesome-icon :icon="['fas', 'comment']" />
+    </router-link>
+  </div>
+
     <div class="fondMessage">
       <router-link :to="{ name: 'Message', params: { id: message.id } }">
         <font-awesome-icon :icon="['fas', 'edit']" />
@@ -72,8 +79,9 @@
             }
           });
       },
-      // ---------- On supprimer le message ----------
-      supprimerMessage: function (id) {
+                  // ---------- On supprimer le message ----------
+                  supprimerMessage: function (id) {
+        console.log(id)
         const token = localStorage.getItem("userToken");
         if (!token) {
           this.$router.push("/");
@@ -92,11 +100,11 @@
             if (!listes || listes.messErr == "Etoken") {
               this.$router.push("/");
             } else {
-              alert('message supprimé')
-              this.$router.push('/listeMessages')
+              this.$router.go();
+              //this.$router.push('/listeMessages')
             }
           });
-      }
+      },
     },
     mounted() {
       this.listeMessage();

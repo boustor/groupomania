@@ -8,3 +8,59 @@
     background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 100%);
     color:#e1e1e1;
 }
+
+
+.alert-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+  }
+  
+  .alert-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+  .alert-container {
+    width: 300px;
+    margin: 0px auto;
+    padding: 10px 30px;
+    background-color: rgb(2, 226, 122);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  
+  .alert-header h3 {
+    margin-top: 0;
+    color: #42b983;
+  }
+  
+  .alert-body {
+    margin: 10px 0;
+  }
+  
+  .alert-default-button {
+    float: right;
+  }
+  
+  .alert-enter {
+    opacity: 0;
+  }
+  
+  .alert-leave-active {
+    opacity: 0;
+  }
+  
+  .alert-enter .alert-container,
+  .alert-leave-active .alert-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
