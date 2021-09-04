@@ -10,5 +10,6 @@ router.get('/',auth, authCtrl.allUsers);
 router.post('/signup', ctrlPassword, authCtrl.signup);
 router.post('/login', authCtrl.login);
 router.get('/ctrlToken',auth, authCtrl.ctrlToken)
+router.get('/supprimer/:id',auth,authCtrl.supprimer)
 
 module.exports = router;

@@ -30,7 +30,7 @@
         <div class="my-4 px-3">
           <div class="mb-3">
             <label for="formFile" class="form-label">Charger une image</label>
-            <input class="form-control" id="fileimg" type="file" @change="viewFile" accept="image/jpeg, image/jpg"
+            <input class="form-control" id="file" ref="file" type="file" @change="viewFile" accept="image/jpeg, image/jpg"
               title="Format jpeg, jpg">
           </div>
         </div>
@@ -38,14 +38,17 @@
         <div id="preview">
           <img v-if="imageView" :src="imageView" class="affichageImage" />
         </div>
-
-        <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
-        <button class="bouton" v-on:click="validerMessage()">Valider</button>
+        <div class="positionBouton">
+          <div class="cadragebouton">
+            <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
+          </div>
+          <div class="cadragebouton">
+            <button class="bouton" v-on:click="validerMessage()">Valider</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-
 
   <div class="alert-mask" v-if="isAlert">
     <div class="alert-wrapper">
@@ -71,12 +74,14 @@
         imageView: null,
         isMessage: null,
         isAlert: false,
+        image:null,
       };
     },
     methods: {
-      viewFile: function (file) {
-        const image = file.target.files[0];
-        this.imageView = URL.createObjectURL(image);
+      viewFile: function () {
+        //this.image = file.target.files[0];
+        this.image = this.$refs.file.files[0];
+        this.imageView = URL.createObjectURL(this.image);
       },
       affmessage: function () {
 
@@ -127,12 +132,21 @@
             if (message.messErr == "Etoken") {
               this.$router.push("/");
             }
+            this.sauvegardeImage()
             this.$router.push('/listeMessages')
           });
       },
+      sauvegardeImage() {
+        var formData = new FormData();
+        formData.append('file', this.image)
+        const OptionsImage = {
+          method:"POST",
+          body:formData
+        }
+        fetch("http://localhost:3000/api/messages/image", OptionsImage)
+      },
       // ---------- On supprimer le message ----------
       supprimerMessage: function (id) {
-        console.log(id)
         const token = localStorage.getItem("userToken");
         if (!token) {
           this.$router.push("/");
@@ -156,7 +170,7 @@
               this.$router.push('/listeMessages')
             }
           });
-      },
+      }
     },
     mounted() {
       if (this.id != 0) this.rechercheMessage();
@@ -168,5 +182,13 @@
   .affichageImage {
     width: 500px;
     padding: 5px;
+  }
+
+  .positionBouton {
+    display: flex;
+    justify-content: space-between;
+  }
+  .cadragebouton {
+  margin:10px;
   }
 </style>

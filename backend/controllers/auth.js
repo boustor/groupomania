@@ -4,6 +4,8 @@ const db = require('../app/models');
 const { Op } = require("sequelize");
 
 const Users = db.users;
+const Messages = db.messages;
+const Commentaires = db.commentaires;
 
 exports.allUsers = (req, res, next) => {
     Users.findAll({
@@ -17,6 +19,13 @@ exports.allUsers = (req, res, next) => {
         .catch(() => res.status(400).json({ messErr: 'rien' }));
 };
 
+/*
+exports.allUsers = (req, res, next) => {
+    Users.findAll()
+        .then((listeUsers) => res.status(200).json(listeUsers))
+        .catch(() => res.status(400).json({ messErr: 'rien' }));
+};
+*/
 exports.signup = (req, res, next) => {
     const { name, email, password, admin } = req.body;
     bcrypt.hash(password, 10)
@@ -46,7 +55,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    Users.findOne({ email: req.body.email })
+    Users.findOne({ where: { email: req.body.email } })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ messErr: 'impossible' });
@@ -54,10 +63,11 @@ exports.login = (req, res, next) => {
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ messErr: 'impossible' });
+                        return res.status(401).json({ messErr: 'Erreur crypt' });
                     }
                     res.status(200).json({
                         usrId: user.id,
+                        admin: user.admin,
                         token: jwt.sign({ userId: user.id },
                             process.env.TOKEN_KEY, { expiresIn: '2h' }
                         )
@@ -71,4 +81,29 @@ exports.login = (req, res, next) => {
 
 exports.ctrlToken = (req, res, next) => {
     return res.status(200).json({ messErr: 'okToken' });
+};
+
+exports.supprimer = (req, res, next) => {
+    // supprimer utilisateur
+    Users.destroy({ where: { id: req.params.id } })
+    // suppression code utilisateur dans message et commentaire
+    Messages.update(
+        {
+            id_usr: null
+        },
+        {
+            where: {
+                id_usr: req.params.id
+            }
+        })
+    Commentaires.update(
+        {
+            id_usr: null
+        },
+        {
+            where: {
+                id_usr: req.params.id
+            }
+        })
+        return res.status(200).json({ messErr: 'okSuppression' });;
 };

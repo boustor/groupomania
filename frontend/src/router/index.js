@@ -31,6 +31,15 @@ const routes = [{
 
 },
 {
+    path: '/commentaire/:id/:id_mess',
+    name: 'Commentaire',
+    component: () =>
+        import('../views/Commentaire.vue'),
+    props: true,
+    meta: { requireAuth: true }
+
+},
+{
     path: '/utilisateurs',
     name: 'Utilisateurs',
     component: () =>

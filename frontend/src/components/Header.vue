@@ -12,7 +12,7 @@
       <div class="full-page-green"></div>
       <div class="ham-menu">
         <ul class="centre-text bold-text">
-          <li>
+          <li v-if="isAdmin">
             <router-link :to="{ name: 'Utilisateurs' }">
               <span v-on:click="closeMenu">Utilisateurs</span>
             </router-link>
@@ -37,6 +37,7 @@
 <script>
 export default {
   name: "Header",
+  props:['isAdmin'],
   data() {
     return {
       cacheMenu: false,
@@ -45,9 +46,9 @@ export default {
   methods: {
     closeMenu: function () {
       this.cacheMenu = false;
-    },
+    }
   },
-};
+}
 </script>
 
 <style scoped>

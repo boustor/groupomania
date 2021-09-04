@@ -8,7 +8,8 @@ const auth = require('../middleware/auth');
 
 router.get('/', auth, messagesCtrl.getAllMessages);
 router.get('/:id', auth, messagesCtrl.getOneMessages);
-router.post('/message', auth, multer, messagesCtrl.createOrUpdate);
+router.post('/message', auth, messagesCtrl.createOrUpdate);
+router.post('/image', multer, messagesCtrl.image);
 router.get('/supprimer/:id',auth,messagesCtrl.supprimerMessage);
 
 module.exports = router;
