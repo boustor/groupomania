@@ -91,18 +91,15 @@
               return
             }
             localStorage.setItem('userToken', user.token)
-            localStorage.setItem('userAdmin',user.admin)
             this.$router.push('/listeMessages')
           })
           .catch(() => {
             localStorage.removeItem('userToken')
-            localStorage.removeItem('userAdmin')
           })
       }
     },
     mounted() {
       localStorage.removeItem('userToken')
-      localStorage.removeItem('userAdmin')
     },
   }
 </script>

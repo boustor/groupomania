@@ -23,7 +23,7 @@
         </router-link>
       </div>
       <div>
-        <router-link :to="{ name: 'Message', params: { id: message.id } }">
+        <router-link :to="{ name: 'Message', params: { id: message.id } }" v-if="userCtrl.userId == message.id_usr">
           <font-awesome-icon :icon="['fas', 'edit']" />
         </router-link>
         &nbsp;
@@ -34,15 +34,25 @@
         </span>
       </div>
     </div>
-
     <AffCom :idmessage=message.id />
 
+  </div>
+
+  <div class="alert-mask" v-if="isAlert">
+    <div class="alert-wrapper">
+      <div class="alert-container">
+        <div class="alert-body">
+          Message supprimé
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
 
 <script>
   import moment from "moment";
+  import webToken from 'jsonwebtoken'
   import AffCom from "../components/AffCommentaire";
 
   export default {
@@ -55,19 +65,22 @@
         listes: null,
         isListe: false,
         butSupprimer: false,
+        userCtrl:null,
+        isAlert: false,
       };
     },
     methods: {
       dateTime(value) {
         return moment(value).format("DD-MM-YYYY");
       },
-      affSupprimer: function () {
-        const admin = localStorage.getItem("userAdmin");
-        if (admin === 'true') {
+      affSupprimer: function () {   
+        if (this.userCtrl.admin == true) {
           this.butSupprimer = true;
         }
       },
+      // ---------------------------------------------------
       // ---------- on va rechercher les messages ----------
+      // ---------------------------------------------------
       listeMessage: function () {
         const token = localStorage.getItem("userToken");
         if (!token) {
@@ -95,13 +108,10 @@
             }
           });
       },
-      // ---------- recherche des commentaires -------
-      listeCommentaire: function () {
-        this.boubou = "tit"
-      },
-      // ---------- On supprimer le message ----------
+      // ---------------------------------------------------
+      // ----------   On supprimer le message     ----------
+      // ---------------------------------------------------
       supprimerMessage: function (id) {
-        console.log(id)
         const token = localStorage.getItem("userToken");
         if (!token) {
           this.$router.push("/");
@@ -120,12 +130,16 @@
             if (!listes || listes.messErr == "Etoken") {
               this.$router.push("/");
             } else {
+              this.isAlert = true;
+              setTimeout(() => { this.isAlert = false }, 800);
               this.$router.go();
             }
           });
       },
     },
+
     mounted() {
+      this.userCtrl = webToken.decode(localStorage.getItem("userToken"), process.env.TOKEN_KEY);
       this.affSupprimer();
       this.listeMessage();
     },
