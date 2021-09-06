@@ -42,6 +42,8 @@ exports.getOneMessages = (req, res, next) => {
 };
 
 exports.createOrUpdate = (req, res, next) => {
+    console.log(req.body)
+    return
     const { id, objet, message } = req.body;
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
@@ -75,6 +77,11 @@ exports.createOrUpdate = (req, res, next) => {
                     res.status(200).json({ messErr: 'créer' });
                 } else {
                     if (lemessage) {
+                        Messages.findOne().then(
+                            function(result) {
+                                console.log(result.id)
+                            }
+                        )
                         res.status(200).json({ messErr: 'créer' });
                     } else {
                         res.status(400).send('Problème de création du message');
@@ -86,9 +93,9 @@ exports.createOrUpdate = (req, res, next) => {
 }
 
 exports.image = (req, res, next) => {
-    const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    console.log(req.file.filename)
-
+    //const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    //console.log(req.file.filename)
+/*
     if (req.file) {
         console.log("file");
         console.log(req.body);
@@ -98,6 +105,7 @@ exports.image = (req, res, next) => {
         console.log(req.body);
     }
     res.json({ message: "post envoyé" });
+    */
 }
 
 exports.supprimerMessage = (req, res, next) => {
