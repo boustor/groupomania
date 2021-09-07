@@ -111,21 +111,6 @@
       // ---------- on ecrit le message ----------
       validerMessage: function () {
         const token = localStorage.getItem("userToken");
-
-        let formData = new FormData();
-        formData.append('id',this.id);
-        formData.append('objet',this.objet);
-        formData.append('message',this.message);
-        const requestOptions = {
-          method:"post",
-          headers:{
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token
-          },
-          body:JSON.stringify(formData)
-        }
-
-/*
         const requestOptions = {
           method: "POST",
           headers: {
@@ -138,20 +123,23 @@
             message: this.message,
           }),
         };
-        */
+
         fetch("http://localhost:3000/api/messages/message", requestOptions)
           .then((message) => message.json())
           .then((message) => {
             if (message.messErr == "Etoken") {
               this.$router.push("/");
             }
-            //this.sauvegardeImage()
+            if (this.image) {
+            this.sauvegardeImage(message.code)
+            }
             this.$router.push('/listeMessages')
           });
       },
-      sauvegardeImage() {
+      sauvegardeImage(name) {
         var formData = new FormData();
-        formData.append('file', this.image,'image')
+        formData.append('file', this.image,name)
+        formData.append('id',name)
         const OptionsImage = {
           method:"POST",
           body:formData

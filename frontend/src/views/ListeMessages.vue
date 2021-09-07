@@ -15,6 +15,9 @@
     <div class="leMessage">
       <textarea v-model="message.message" class="messageArea"></textarea>
     </div>
+    <div>
+      <img :src="require(`@/../../backend/${message.imageurl}`)" class="imageliste"/>
+    </div>
 
     <div class="fondMessage">
       <div>
@@ -54,7 +57,7 @@
   import moment from "moment";
   import webToken from 'jsonwebtoken'
   import AffCom from "../components/AffCommentaire";
-
+  
   export default {
     name: "ListeMessages",
     components: {
@@ -65,18 +68,22 @@
         listes: null,
         isListe: false,
         butSupprimer: false,
-        userCtrl:null,
+        userCtrl: null,
         isAlert: false,
+        chemin:"../../"
       };
     },
     methods: {
       dateTime(value) {
         return moment(value).format("DD-MM-YYYY");
       },
-      affSupprimer: function () {   
+      affSupprimer: function () {
         if (this.userCtrl.admin == true) {
           this.butSupprimer = true;
         }
+      },
+      image:function(image){
+        return '../../'+image
       },
       // ---------------------------------------------------
       // ---------- on va rechercher les messages ----------
@@ -197,18 +204,23 @@
   }
 
   .messageArea {
-    width:100%;
+    width: 100%;
     background-color: #666666;
-    color:white;
-    border:0;
+    color: white;
+    border: 0;
     resize: none;
   }
 
   .objetMessage {
-    width:95%;
-    margin:auto;
+    width: 95%;
+    margin: auto;
     margin-bottom: 5px;
     border-radius: 5px;
     background-color: #74ffba;
+  }
+  .imageliste{
+    width:90%;
+    margin-top:10px;
+    margin-bottom:10px;
   }
 </style>

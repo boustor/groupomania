@@ -15,6 +15,9 @@ module.exports = (sequelize, Sequelize) => {
         message: {
             type: Sequelize.TEXT
         },
+        imageurl: {
+            type: Sequelize.TEXT
+        },
         createdAt: {
             type: 'TIMESTAMP',
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),

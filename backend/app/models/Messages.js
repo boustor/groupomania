@@ -3,13 +3,16 @@ module.exports = (sequelize, Sequelize) => {
         id_usr: {
             type: Sequelize.INTEGER
         },
-        nom : {
-            type:Sequelize.STRING
+        nom: {
+            type: Sequelize.STRING
         },
         objet: {
             type: Sequelize.STRING
         },
         message: {
+            type: Sequelize.TEXT
+        },
+        imageurl: {
             type: Sequelize.TEXT
         },
         createdAt: {
