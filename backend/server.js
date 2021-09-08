@@ -3,7 +3,6 @@ const app = require('./app');
 const db = require("./app/models");
 const install = require('./controllers/install.js');
 install.init();
-//db.sequelize.sync();
 
 const hostname = 'localhost';
 
