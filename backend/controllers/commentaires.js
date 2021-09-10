@@ -12,7 +12,6 @@ exports.getAllCommentaires = (req, res, next) => {
 };
 
 exports.getOneCommentaires = (req, res, next) => {
-    console.log(req.params.id)
     Commentaires.findOne({ where: { id: req.params.id } })
         .then((message) => {
             return res.status(200).json(message);

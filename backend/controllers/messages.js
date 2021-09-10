@@ -32,7 +32,7 @@ exports.getOneMessages = (req, res, next) => {
 };
 
 exports.createOrUpdate = (req, res, next) => {
-    const { id, objet, message, imageurl, image } = req.body;
+    const { id, objet, message, imageurl, image, oldimage } = req.body;
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
     const idUser = decodedToken.userId;
@@ -50,17 +50,16 @@ exports.createOrUpdate = (req, res, next) => {
                     .then(creation => res.status(200).json({ messErr: 'okCreation', code: creation.id }))
                     .catch(() => { return res.status(404).json({ messErr: 'BadMessage' }) })
             } else {
-                if (image && imageurl) {
-                    if (image.indexOf(imageurl) == -1) {
-                        fs.unlink(imageurl, () => { })
-                    }
+                if (oldimage != imageurl) {
+                    fs.unlink(oldimage, () => { })
                 }
                 Messages.update(
                     {
                         id_usr: user.id_usr,
                         nom: user.nom,
                         objet: objet,
-                        message: message
+                        message: message,
+                        imageurl: imageurl,
                     },
                     {
                         where: {
@@ -68,15 +67,21 @@ exports.createOrUpdate = (req, res, next) => {
                         }
                     })
                     .then(() => res.status(200).json({ messErr: 'okCreation', code: id }))
-                    .catch(() => { return res.status(404).json({ messErr: 'BadMessage' }) })
+                    .catch(() => res.status(404).json({ messErr: 'BadMessage' }))
             }
         }
     });
 }
 
 exports.image = (req, res, next) => {
-    console.log(req.file.filename)
     const imageUrl = `images/${req.file.filename}`
+    Messages.findOne({ where: { id: req.body.id } })
+        .then((retour) => {
+            console.log(retour.imageurl)
+            if (retour.imageurl != imageUrl) {
+                fs.unlink(retour.imageurl, () => { })
+            }
+        })
     Messages.update(
         {
             imageurl: imageUrl

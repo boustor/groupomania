@@ -47,14 +47,15 @@
             <input class="form-control" id="file" ref="file" type="file" @change="viewFile"
               accept="image/jpeg, image/jpg, image/png" title="Format jpeg, jpg, png">
           </div>
-          <div id="passwordHelp" class="form-text">Uniquement les formats jpg, jpeg, png </div>
+          <div id="passwordHelp" class="form-text">Formats jpg, jpeg, png </div>
           <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlImage }">
             Image au mauvais format.
           </div>
         </div>
 
-        <div id="preview">
-          <img v-if="imageView" :src="imageView" class="affichageImage" />
+        <div id="preview" v-if="imageView">
+          <div><img  :src="imageView" class="affichageImage" /></div>
+          <div><button class="bouton" v-on:click="supprimerImage()">Supprimer image</button></div>
         </div>
 
         <div class="positionBouton">
@@ -105,6 +106,7 @@
         ctrlMessageC:false,
         ctrlObjetC:false,
         selImage:true,
+        oldImage:'',
       };
     },
     methods: {
@@ -120,12 +122,16 @@
         const formatImg='png jpg jpeg';
         if (formatImg.indexOf(ext) == -1) {
           this.ctrlImage = true;
-          this.image = ''
-          this.$refs.file.value=null;
-          this.imageView = ''
+          this.supprimerImage();
           return
         }
         this.imageView = URL.createObjectURL(this.image);
+      },
+      supprimerImage:function() {
+        this.image = ''
+          this.$refs.file.value=null;
+          this.imageView = ''
+          this.imageurl = ''
       },
       retourListes: function () {
         this.$router.push('/listeMessages')
@@ -151,9 +157,10 @@
             this.objet = message.objet;
             this.message = message.message;
             this.imageurl = message.imageurl;
+            this.oldImage = message.imageurl;
             if (this.imageurl) {
-            this.imageView = require(`@/../../backend/${this.imageurl}`);
-            this.selImage= false;
+            this.imageView ="http://localhost:3000/"+this.imageurl
+            //this.selImage= false;
             }
 
           });
@@ -187,11 +194,10 @@
         }
         // ------------------------------
         const token = localStorage.getItem("userToken");
+        this.newImage = ''
         if (this.image) {
           this.newImage = this.image.name
-        }
-        console.log(this.imageurl)
-        console.log(this.newimage)
+        } 
         const requestOptions = {
           method: "POST",
           headers: {
@@ -203,6 +209,7 @@
             objet: this.objet,
             message: this.message,
             imageurl: this.imageurl,
+            oldimage: this.oldImage,
             image: this.newImage,
           }),
         };
@@ -236,7 +243,7 @@
           this.$router.push("/");
         }
         const requestOptions = {
-          method: "GET",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,

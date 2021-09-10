@@ -17,7 +17,7 @@
       <textarea v-model="message.message" class="messageArea"></textarea>
     </div>
     <div>
-      <img v-bind:src="require(`@/../../backend/${message.imageurl}`)" v-if="message.imageurl" class="imageliste" />
+     <img :src="`http://localhost:3000/${message.imageurl}`" v-if="message.imageurl" class="imageliste" />
     </div>
 
     <div class="fondMessage">
@@ -125,7 +125,7 @@
           this.$router.push("/");
         }
         const requestOptions = {
-          method: "GET",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,

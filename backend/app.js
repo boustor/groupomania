@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const path = require('path');
 const authRoutes = require('./routes/auth');
 const messages = require('./routes/messages');
 const commentaires = require('./routes/commentaires');
@@ -9,6 +10,7 @@ const commentaires = require('./routes/commentaires');
 
 
 app.use(cors());
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
   app.use(express.json());
