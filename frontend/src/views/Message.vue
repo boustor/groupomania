@@ -18,20 +18,38 @@
           <div class="input-group">
             <input type="text" class="form-control" id="objet" aria-describedby="text" v-model="objet" />
           </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlObjet }">
+            Il manque l'objet du message.
+          </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlObjetC }">
+            L'objet doit supérieur à 10 caractères.
+          </div>
         </div>
 
         <div class="my-4 px-3">
           <label for="password" class="form-label">Message</label>
           <div class="input-group">
-            <textarea class="form-control text-break text-lg-start messageTexte" id="message" v-model="message"></textarea>
+            <textarea class="form-control text-break text-lg-start messageTexte" id="message"
+              v-model="message"></textarea>
           </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlMessage }">
+            Il manque le message.
+          </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlMessageC }">
+            Le message doit être suppérieur à 15 caractères.
+          </div>
+
         </div>
 
-        <div class="my-4 px-3">
+        <div class="my-4 px-3" v-if="selImage">
           <div class="mb-3">
             <label for="formFile" class="form-label">Charger une image</label>
-            <input class="form-control" id="file" ref="file" type="file" @change="viewFile" accept="image/jpeg, image/jpg"
-              title="Format jpeg, jpg">
+            <input class="form-control" id="file" ref="file" type="file" @change="viewFile"
+              accept="image/jpeg, image/jpg, image/png" title="Format jpeg, jpg, png">
+          </div>
+          <div id="passwordHelp" class="form-text">Uniquement les formats jpg, jpeg, png </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlImage }">
+            Image au mauvais format.
           </div>
         </div>
 
@@ -71,25 +89,45 @@
     props: ["id"],
     data() {
       return {
-        objet: null,
-        message: null,
-        imageurl:null,
+        objet: '',
+        message: '',
+        imageurl: null,
         id_usr: null,
         fileimg: null,
         imageView: null,
-        newImage:null,
+        newImage: null,
         isMessage: null,
         isAlert: false,
-        image:null,
+        image: null,
+        ctrlObjet: false,
+        ctrlMessage: false,
+        ctrlImage: false,
+        ctrlMessageC:false,
+        ctrlObjetC:false,
+        selImage:true,
       };
     },
     methods: {
+      getExtension: function (chemin) {
+        const regex = /[^.]*$/i;
+        const resultats = chemin.match(regex);
+        return resultats[0];
+      },
       viewFile: function () {
-        //this.image = file.target.files[0];
         this.image = this.$refs.file.files[0];
+        const nomFic = this.image.name;
+        const ext = this.getExtension(nomFic).toLowerCase();
+        const formatImg='png jpg jpeg';
+        if (formatImg.indexOf(ext) == -1) {
+          this.ctrlImage = true;
+          this.image = ''
+          this.$refs.file.value=null;
+          this.imageView = ''
+          return
+        }
         this.imageView = URL.createObjectURL(this.image);
       },
-      retourListes:function(){
+      retourListes: function () {
         this.$router.push('/listeMessages')
       },
       // ---------- on recherche un message ----------
@@ -113,29 +151,59 @@
             this.objet = message.objet;
             this.message = message.message;
             this.imageurl = message.imageurl;
+            if (this.imageurl) {
             this.imageView = require(`@/../../backend/${this.imageurl}`);
-            
+            this.selImage= false;
+            }
+
           });
       },
       // ---------- on ecrit le message ----------
       validerMessage: function () {
+        let erreur = ''
+        this.ctrlObjet= false
+        this.ctrlObjetC= false
+        this.ctrlMessage= false
+        this.ctrlMessageC= false
+
+        if (this.objet == '') {
+          this.ctrlObjet = true;
+          erreur = true
+        } else if (this.objet.length < 10) {
+          this.ctrlObjetC = true;
+          erreur = true
+        }
+
+        if (this.message == '') {
+          this.ctrlMessage = true;
+          erreur = true
+        }  else if (this.message.length < 15) {
+          this.ctrlMessageC = true;
+          erreur = true
+        }
+
+        if (erreur == true) {
+          return;
+        }
+        // ------------------------------
         const token = localStorage.getItem("userToken");
         if (this.image) {
-          console.log(this.image.name)
           this.newImage = this.image.name
         }
+        console.log(this.imageurl)
+        console.log(this.newimage)
         const requestOptions = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
-          },      
+          },
           body: JSON.stringify({
             id: this.id,
             objet: this.objet,
             message: this.message,
-            imageurl:this.imageurl,
-            image:this.newImage,
+            imageurl: this.imageurl,
+            image: this.newImage,
           }),
         };
 
@@ -146,18 +214,18 @@
               this.$router.push("/");
             }
             if (this.image) {
-            this.sauvegardeImage(message.code)
+              this.sauvegardeImage(message.code)
             }
             this.$router.push('/listeMessages')
           });
       },
       sauvegardeImage(name) {
         var formData = new FormData();
-        formData.append('file', this.image,"mess"+name)
-        formData.append('id',name)
+        formData.append('file', this.image, "mess" + name)
+        formData.append('id', name)
         const OptionsImage = {
-          method:"POST",
-          body:formData
+          method: "POST",
+          body: formData
         }
         fetch("http://localhost:3000/api/messages/image", OptionsImage)
       },
@@ -199,14 +267,17 @@
     width: 95%;
     padding: 5px;
   }
+
   .positionBouton {
     display: flex;
     justify-content: space-between;
   }
+
   .cadragebouton {
-  margin:10px;
+    margin: 10px;
   }
+
   .messageTexte {
-    height:300px;
+    height: 300px;
   }
 </style>

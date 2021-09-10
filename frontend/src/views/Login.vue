@@ -86,7 +86,6 @@
         fetch('http://localhost:3000/api/auth/login', requestOptions)
           .then(response => response.json())
           .then(user => {
-            console.log(user.messErr)
             if (user.messErr == 'impossible') {
               this.messageErreur = true
               return

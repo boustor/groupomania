@@ -18,6 +18,12 @@
           <div class="input-group">
             <input type="text" class="form-control" id="objet" aria-describedby="text" v-model="objet" />
           </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlObjet }">
+            Il manque l'objet du commentaire.
+          </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlObjetC }">
+            L'objet doit supérieur à 10 caractères.
+          </div>
         </div>
 
         <div class="my-4 px-3">
@@ -25,19 +31,15 @@
           <div class="input-group">
             <textarea class="form-control text-break text-lg-start textCom" id="message" v-model="message"></textarea>
           </div>
-        </div>
-
-        <div class="my-4 px-3">
-          <div class="mb-3">
-            <label for="formFile" class="form-label">Charger une image</label>
-            <input class="form-control" id="fileimg" type="file" @change="viewFile" accept="image/jpeg, image/jpg"
-              title="Format jpeg, jpg">
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlMessage }">
+            Il manque le commentaire.
           </div>
+          <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlMessageC }">
+            Le commentaire doit être suppérieur à 15 caractères.
+          </div>
+
         </div>
 
-        <div id="preview">
-          <img v-if="imageView" :src="imageView" class="affichageImage" />
-        </div>
         <div class="positionBouton">
           <div class="cadragebouton">
             <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
@@ -70,23 +72,20 @@
     props: ["id_mess", "id"],
     data() {
       return {
-        objet: null,
-        message: null,
+        objet: '',
+        message: '',
         id_usr: null,
         fileimg: null,
         imageView: null,
         isMessage: null,
         isAlert: false,
+        ctrlObjet:false,
+        ctrlMessage:false,
+        ctrlMessageC:false,
+        ctrlObjetC:false,
       };
     },
     methods: {
-      viewFile: function (file) {
-        const image = file.target.files[0];
-        this.imageView = URL.createObjectURL(image);
-      },
-      affmessage: function () {
-
-      },
       retourListes:function(){
         this.$router.push('/listeMessages')
       },
@@ -114,6 +113,33 @@
       },
       // ---------- on ecrit le message ----------
       validerMessage: function () {
+        let erreur = ''
+
+        this.ctrlObjet= false
+        this.ctrlObjetC= false
+        this.ctrlMessage= false
+        this.ctrlMessageC= false
+
+        if (this.objet == '') {
+          this.ctrlObjet = true;
+          erreur = true
+        } else if (this.objet.length < 10) {
+          this.ctrlObjetC = true;
+          erreur = true
+        }
+
+        if (this.message == '') {
+          this.ctrlMessage = true;
+          erreur = true
+        } else if (this.message.length < 15) {
+          this.ctrlMessageC = true;
+          erreur = true
+        }
+
+        if (erreur == true) {
+          return;
+        }
+        // ------------------------------
         const token = localStorage.getItem("userToken");
         const requestOptions = {
           method: "POST",

@@ -50,7 +50,7 @@ exports.createOrUpdate = (req, res, next) => {
                     .then(creation => res.status(200).json({ messErr: 'okCreation', code: creation.id }))
                     .catch(() => { return res.status(404).json({ messErr: 'BadMessage' }) })
             } else {
-                if (image) {
+                if (image && imageurl) {
                     if (image.indexOf(imageurl) == -1) {
                         fs.unlink(imageurl, () => { })
                     }

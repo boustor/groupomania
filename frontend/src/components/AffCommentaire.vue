@@ -73,9 +73,7 @@
         fetch("http://localhost:3000/api/commentaires/all/" + this.idmessage, requestOptions)
           .then((listes) => listes.json())
           .then((listes) => {
-            if (listes == '') {
-              console.log('rien')
-            } else {
+            if (listes != '') {
               this.isCom = 'true';
               this.listes = listes
             }
