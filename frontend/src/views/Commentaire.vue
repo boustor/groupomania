@@ -23,7 +23,7 @@
         <div class="my-4 px-3">
           <label for="password" class="form-label">Message</label>
           <div class="input-group">
-            <textarea class="form-control text-break text-lg-start" id="message" v-model="message"></textarea>
+            <textarea class="form-control text-break text-lg-start textCom" id="message" v-model="message"></textarea>
           </div>
         </div>
 
@@ -41,6 +41,9 @@
         <div class="positionBouton">
           <div class="cadragebouton">
             <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
+          </div>
+          <div class="cadragebouton">
+            <button class="bouton" v-on:click="retourListes()">Retour</button>
           </div>
           <div class="cadragebouton">
             <button class="bouton" v-on:click="validerMessage()">Valider</button>
@@ -84,6 +87,9 @@
       affmessage: function () {
 
       },
+      retourListes:function(){
+        this.$router.push('/listeMessages')
+      },
       // ---------- on recherche un message ----------
       rechercheMessage: function () {
         const requestOptions = {
@@ -109,15 +115,12 @@
       // ---------- on ecrit le message ----------
       validerMessage: function () {
         const token = localStorage.getItem("userToken");
-        //const formData = new FormData(),
         const requestOptions = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
-
-          //formData.append('fileImg', this.imageView),
           body: JSON.stringify({
             id: this.id,
             id_mess: this.id_mess,
@@ -168,8 +171,20 @@
 </script>
 
 <style>
+  .positionBouton {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .affichageImage {
     width: 500px;
     padding: 5px;
+  }
+
+  .cadragebouton {
+    margin: 10px;
+  }
+  .textCom {
+    height: 200px;
   }
 </style>

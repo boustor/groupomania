@@ -7,7 +7,8 @@
         <div>le : {{ dateTime(message.createdAt) }}</div>
       </div>
       <div class="objetMessageCom">{{ message.objet }}</div>
-      <textarea v-model="message.message" class="messageAreaCom"></textarea>
+
+      <textarea v-model="message.message" class="messageAreaCom"></textarea>     
 
       <div class="fondCommentaire">
         <div>
@@ -128,7 +129,7 @@
 
   .messageAreaCom {
     width: 95%;
-    height: 100px;
+    height: 200px;
     background-color: #82bdf5;
     color: white;
     border: 0;

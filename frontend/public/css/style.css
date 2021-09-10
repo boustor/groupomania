@@ -1,13 +1,21 @@
+
 .bouton {
-    padding-left : 20px;
-    padding-right:20px;
-    border-radius: 5px;
-    height:40px;
-    border :0;
-    background: rgb(2,0,36);
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 7%, rgba(0,212,255,1) 100%);
-    color:#e1e1e1;
-}
+  text-decoration: none;
+  padding: 5px 10px 5px 10px;
+  font-family: arial;
+  font-size: 1em;
+  color: #FFFFFF;
+  background-color: #31859b;
+  border:0px;
+  box-shadow: 1px 1px 6px #444444;
+  -webkit-box-shadow: 1px 1px 6px #444444;
+  }
+  
+  
+  .bouton:hover {
+  box-shadow: 0px 0px 0px 0;
+  -webkit-box-shadow: 0px 0px 0px 0;
+  }
 
 
 .alert-mask {
@@ -64,3 +72,5 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
+
+

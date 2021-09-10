@@ -23,7 +23,7 @@
         <div class="my-4 px-3">
           <label for="password" class="form-label">Message</label>
           <div class="input-group">
-            <textarea class="form-control text-break text-lg-start" id="message" v-model="message"></textarea>
+            <textarea class="form-control text-break text-lg-start messageTexte" id="message" v-model="message"></textarea>
           </div>
         </div>
 
@@ -38,9 +38,13 @@
         <div id="preview">
           <img v-if="imageView" :src="imageView" class="affichageImage" />
         </div>
+
         <div class="positionBouton">
           <div class="cadragebouton">
             <button class="bouton" v-on:click="supprimerMessage(id)">Supprimer</button>
+          </div>
+          <div class="cadragebouton">
+            <button class="bouton" v-on:click="retourListes()">Retour</button>
           </div>
           <div class="cadragebouton">
             <button class="bouton" v-on:click="validerMessage()">Valider</button>
@@ -69,9 +73,11 @@
       return {
         objet: null,
         message: null,
+        imageurl:null,
         id_usr: null,
         fileimg: null,
         imageView: null,
+        newImage:null,
         isMessage: null,
         isAlert: false,
         image:null,
@@ -83,8 +89,8 @@
         this.image = this.$refs.file.files[0];
         this.imageView = URL.createObjectURL(this.image);
       },
-      affmessage: function () {
-
+      retourListes:function(){
+        this.$router.push('/listeMessages')
       },
       // ---------- on recherche un message ----------
       rechercheMessage: function () {
@@ -106,11 +112,18 @@
             }
             this.objet = message.objet;
             this.message = message.message;
+            this.imageurl = message.imageurl;
+            this.imageView = require(`@/../../backend/${this.imageurl}`);
+            
           });
       },
       // ---------- on ecrit le message ----------
       validerMessage: function () {
         const token = localStorage.getItem("userToken");
+        if (this.image) {
+          console.log(this.image.name)
+          this.newImage = this.image.name
+        }
         const requestOptions = {
           method: "POST",
           headers: {
@@ -121,6 +134,8 @@
             id: this.id,
             objet: this.objet,
             message: this.message,
+            imageurl:this.imageurl,
+            image:this.newImage,
           }),
         };
 
@@ -138,7 +153,7 @@
       },
       sauvegardeImage(name) {
         var formData = new FormData();
-        formData.append('file', this.image,name)
+        formData.append('file', this.image,"mess"+name)
         formData.append('id',name)
         const OptionsImage = {
           method:"POST",
@@ -181,15 +196,17 @@
 
 <style>
   .affichageImage {
-    width: 500px;
+    width: 95%;
     padding: 5px;
   }
-
   .positionBouton {
     display: flex;
     justify-content: space-between;
   }
   .cadragebouton {
   margin:10px;
+  }
+  .messageTexte {
+    height:300px;
   }
 </style>

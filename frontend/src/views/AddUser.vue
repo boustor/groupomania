@@ -34,6 +34,7 @@
           <label for="password" class="form-label">Mot de passe</label>
           <div class="input-group">
             <input type="password" class="form-control" id="password" v-model="password" placeholder="Mot de passe" />
+            <div id="passwordHelp" class="form-text">Il doit comprendre 8 caractères avec au moins une majuscule, une minuscule, un chiffre et un caractère spacial</div>
             <div class="invalid-feedback" v-bind:class="{ 'd-block': ctrlPswd }">
               Mot de passe obligatoire ou incorrect.
             </div>

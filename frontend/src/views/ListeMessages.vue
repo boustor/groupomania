@@ -2,9 +2,10 @@
   <div class="pasMessage" v-show="isListe">Aucun message</div>
 
   <br />
-  <button class="bouton" v-on:click="this.$router.push({ name: 'Message', params: { id: 0 } })">
-    Ajouter un message
-  </button>
+
+    <button class="bouton" v-on:click="this.$router.push({ name: 'Message', params: { id: 0 } })">
+      Ajouter un message
+    </button>
 
   <div v-for="message in listes" :key="message.id" class="cadreMessage">
     <div class="enteteMessage">
@@ -16,7 +17,7 @@
       <textarea v-model="message.message" class="messageArea"></textarea>
     </div>
     <div>
-      <img :src="require(`@/../../backend/${message.imageurl}`)" class="imageliste"/>
+      <img v-bind:src="require(`@/../../backend/${message.imageurl}`)" v-if="message.imageurl" class="imageliste" />
     </div>
 
     <div class="fondMessage">
@@ -57,7 +58,7 @@
   import moment from "moment";
   import webToken from 'jsonwebtoken'
   import AffCom from "../components/AffCommentaire";
-  
+
   export default {
     name: "ListeMessages",
     components: {
@@ -70,7 +71,7 @@
         butSupprimer: false,
         userCtrl: null,
         isAlert: false,
-        chemin:"../../"
+        chemin: "../../"
       };
     },
     methods: {
@@ -82,8 +83,8 @@
           this.butSupprimer = true;
         }
       },
-      image:function(image){
-        return '../../'+image
+      image: function (image) {
+        return '../../' + image
       },
       // ---------------------------------------------------
       // ---------- on va rechercher les messages ----------
@@ -205,6 +206,7 @@
 
   .messageArea {
     width: 100%;
+    height: 200px;
     background-color: #666666;
     color: white;
     border: 0;
@@ -218,9 +220,19 @@
     border-radius: 5px;
     background-color: #74ffba;
   }
-  .imageliste{
-    width:90%;
-    margin-top:10px;
-    margin-bottom:10px;
+
+  .imageliste {
+    width: 90%;
+    max-width: 1024px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+
+  .alignBouton {
+    border:solid 1px black;
+    width:100%;
+    display:flex;
+   align-items: center;
   }
 </style>
